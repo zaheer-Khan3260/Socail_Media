@@ -5,7 +5,7 @@ import {Container, PostCardSecond} from '../component/index'
 const AllPost = () => {
     const [posts, setPosts] = useState([])
       useEffect(async () => {
-      await axios.post("/api/v1/posts/getAllPost", {
+      await axios.post("https://social-media-server-wbur.onrender.com/api/v1/posts/getAllPost", {
         params: {
           sortBy: 'createdAt',
           sortType: 'asc',
