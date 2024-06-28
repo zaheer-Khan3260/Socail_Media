@@ -3,12 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@reduxjs/toolkit": "^2.0.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@tinymce/tinymce-react": "^4.3.2",
+    "appwrite": "^13.0.1",
+    "axios": "^1.7.2",
+    "buffer": "^6.0.3",
+    "html-react-parser": "^5.0.7",
+    "http-proxy-middleware": "^3.0.0",
+    "js-cookie": "^3.0.5",
+    "js-cookies": "^1.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.49.2",
+    "react-redux": "^9.0.4",
+    "react-router-dom": "^6.21.0",
     "react-scripts": "5.0.1",
+    "serialize-javascript": "^6.0.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -17,6 +30,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:5000",
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -34,5 +48,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.0"
   }
 }
