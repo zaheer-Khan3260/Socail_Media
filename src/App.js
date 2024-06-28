@@ -18,7 +18,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://social-media-server-wbur.onrender.com/api/v1/users/current-user`);
+        const response = await axios.get(`/api/v1/users/current-user`);
         const userData = response.data.data
         console.log("userData in app.js",userData);
         if (userData) {

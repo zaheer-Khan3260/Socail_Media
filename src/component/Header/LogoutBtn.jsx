@@ -9,9 +9,9 @@ function LogoutBtn() {
   const navigate = useNavigate();
     const dispatch = useDispatch();
     const logoutHandler = async() => {
-        await axios.post("https://social-media-server-wbur.onrender.com/api/v1/users/logout").then(() => {
+        await axios.post("/api/v1/users/logout").then(() => {
             dispatch(logout())
-            navigate('/login')
+            navigate('/signup')
         }).catch((err) => {
           console.log(err)
         })

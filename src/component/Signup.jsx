@@ -25,7 +25,7 @@ const Signup = () => {
     
     try {
       const response = await axios.post(
-        `https://social-media-server-wbur.onrender.com/api/v1/users/register`,
+        `/api/v1/users/register`,
         formData,
         {
           withCredentials: true, 

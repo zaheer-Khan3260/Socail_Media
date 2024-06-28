@@ -20,7 +20,7 @@ const isAuthor = UserId && UserData && UserId === UserData._id ? true : false;
   useEffect(() => {
     if(UserId) {
       const fetchProfile = async() => {
-      const response = await axios.post(`https://social-media-server-wbur.onrender.com/api/v1/users/getUserChannelProfile`, {
+      const response = await axios.post(`/api/v1/users/getUserChannelProfile`, {
         userId: UserId
       })
       const userData = response.data
@@ -28,7 +28,7 @@ const isAuthor = UserId && UserData && UserId === UserData._id ? true : false;
      }
 
      const fetchPosts = async() => {
-      const response = await axios.post(`https://social-media-server-wbur.onrender.com/api/v1/posts/getUserPost`, {
+      const response = await axios.post(`/api/v1/posts/getUserPost`, {
             userId: UserId
       })
       const userPosts = response.data

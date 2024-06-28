@@ -52,7 +52,7 @@ export default function PostForm({ post }) {
                 formData.append("isPublished", data.isPublished)
                 try {
                     const response = await axios.post(
-                        "https://social-media-server-wbur.onrender.com/api/v1/posts/",
+                        "/api/v1/posts/",
                         formData
                     )
                     const postData = response?.data

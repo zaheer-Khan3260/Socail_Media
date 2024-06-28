@@ -30,7 +30,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-
+   "proxy" : "https://social-media-server-wbur.onrender.com",
   "eslintConfig": {
     "extends": [
       "react-app",
