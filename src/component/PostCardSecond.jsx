@@ -5,7 +5,7 @@ import commentImage from "./Images/comment.png";
 import shareImage from "./Images/send.png";
 import likeButton from "./Images/heart.png";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import api from "../api.js"
 
 function PostCardSecond({ _id, owner, postFile, isLiked, likeCount, comment, caption }) {
   const[userData, setUserData] = useState(null);
@@ -14,7 +14,7 @@ function PostCardSecond({ _id, owner, postFile, isLiked, likeCount, comment, cap
 
   useEffect(() => {
       const fetchData = async() => {
-    const response = await axios.post("/api/v1/users/getUserById", {userId: owner})
+    const response = await api.post("/api/v1/users/getUserById", {userId: owner})
       const userData = response.data
       if(userData){
         setUserData(userData.data)
@@ -26,7 +26,7 @@ function PostCardSecond({ _id, owner, postFile, isLiked, likeCount, comment, cap
 
   const handleLike = async () => {
     try {
-      const response = await axios.post("/api/v1/like/toggle/v/postLike", {
+      const response = await api.post("/api/v1/like/toggle/v/postLike", {
         postId: _id,
       });
       

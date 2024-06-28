@@ -5,7 +5,7 @@ import {Input} from '../component/index.js'
 import {useDispatch} from "react-redux"
 import {useForm} from "react-hook-form"
 import { useState } from 'react'
-import axios from 'axios'
+import api from "../api.js"
 
 function Login() {
     const navigate = useNavigate();
@@ -16,7 +16,7 @@ function Login() {
    const login = async(data) => {
         setError("")
         try {
-               const response = await axios.post("/api/v1/users/login", data)
+               const response = await api.post("/api/v1/users/login", data)
               const userData = response.data.data
                console.log("userdata by login", response.data.data);
           if (userData) {

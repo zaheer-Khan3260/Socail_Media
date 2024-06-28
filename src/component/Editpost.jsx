@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input, Select } from "./index";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api.js"
 
 export default function PostForm({ post }) {
     const { register, handleSubmit } = useForm({
@@ -19,7 +19,7 @@ export default function PostForm({ post }) {
         if (post) {
             if(data.image[0]) setFile(data.image[0])
             if (file) {
-                await axios.delete(
+                await api.delete(
                     "/api/v1/posts/deletevideo",{
                     params: {
                         postId: post?._id
@@ -30,7 +30,7 @@ export default function PostForm({ post }) {
                 formData.append("caption", data.caption)
                 formData.append("isPublished", data.isPublished)
                 try {
-                    const response = await axios.post(
+                    const response = await api.post(
                         "http://localhost:5000/api/v1/posts/upload-video",
                         formData,
                     )
@@ -51,7 +51,7 @@ export default function PostForm({ post }) {
                 formData.append("caption", data.caption)
                 formData.append("isPublished", data.isPublished)
                 try {
-                    const response = await axios.post(
+                    const response = await api.post(
                         "/api/v1/posts/",
                         formData
                     )

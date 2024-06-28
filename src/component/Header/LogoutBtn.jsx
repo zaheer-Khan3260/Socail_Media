@@ -4,12 +4,13 @@ import logoutImage from '../Images/log-out.png'
 import {logout} from '../../store/authSlice'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import api from '../../api.js'
 
 function LogoutBtn() {
   const navigate = useNavigate();
     const dispatch = useDispatch();
     const logoutHandler = async() => {
-        await axios.post("/api/v1/users/logout").then(() => {
+        await api.post("/api/v1/users/logout").then(() => {
             dispatch(logout())
             navigate('/signup')
         }).catch((err) => {

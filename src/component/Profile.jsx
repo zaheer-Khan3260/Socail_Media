@@ -4,7 +4,7 @@ import conent from './Images/download.png'
 import savedPostImage from './Images/savedpost.webp'
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom'
-import axios from 'axios'
+import api from '../api.js';
 
 function Profile() {
   const [activePost, setActivePost] = useState(true);
@@ -20,7 +20,7 @@ const isAuthor = UserId && UserData && UserId === UserData._id ? true : false;
   useEffect(() => {
     if(UserId) {
       const fetchProfile = async() => {
-      const response = await axios.post(`/api/v1/users/getUserChannelProfile`, {
+      const response = await api.post(`/api/v1/users/getUserChannelProfile`, {
         userId: UserId
       })
       const userData = response.data
@@ -28,7 +28,7 @@ const isAuthor = UserId && UserData && UserId === UserData._id ? true : false;
      }
 
      const fetchPosts = async() => {
-      const response = await axios.post(`/api/v1/posts/getUserPost`, {
+      const response = await api.post(`/api/v1/posts/getUserPost`, {
             userId: UserId
       })
       const userPosts = response.data

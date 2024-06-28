@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Container, Button } from "../component/index";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
-import axios from "axios";
+import api from "../api.js";
 
 export default function Post() {
     const [post, setPost] = useState(null);
@@ -17,7 +17,7 @@ export default function Post() {
     useEffect(() => {
         const fetchData = async() => {
         if (postId) {
-           await axios.get(`/api/v1/c/`, {
+           await api.get(`/api/v1/c/`, {
             params : {postId}
            }).then((post) => {
                 if (post) setPost(post);
@@ -29,7 +29,7 @@ export default function Post() {
     }, [postId, navigate]);
 
     const deletePost = async() => {
-        await axios.delete(`/api/v1/posts/c/${post?._id}`).then((status) => { 
+        await api.delete(`/api/v1/posts/c/${post?._id}`).then((status) => { 
             return true 
         }).catch((err) => {
             console.log(err)

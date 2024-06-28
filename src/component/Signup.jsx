@@ -5,7 +5,7 @@ import { Button, Input } from "./index.js";
 import { useDispatch } from "react-redux";
 import serialize from 'serialize-javascript';
 import { useForm } from "react-hook-form";
-import axios from "axios";
+import api from "../api.js";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const Signup = () => {
     formData.append("password", data.password);
     
     try {
-      const response = await axios.post(
+      const response = await api.post(
         `/api/v1/users/register`,
         formData,
         {

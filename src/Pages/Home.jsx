@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import { useSelector } from 'react-redux'
 import { Container, Login, PostCardSecond} from '../component/index'
-import axios from 'axios';
+import api from '../api.js';
 function Home() {
     const [posts, setPosts] = useState([])
  const userStatus = useSelector((state) => state.auth.status);
     useEffect(() => {
         const fetchData = async () => {
-        const response = await axios.get("/api/v1/posts/")
+        const response = await api.get("/api/v1/posts/")
             if(response.data) {
                 console.log("postData",response.data.data);
                 setPosts(response.data.data)
