@@ -7,7 +7,7 @@ function Home() {
  const userStatus = useSelector((state) => state.auth.status);
     useEffect(() => {
         const fetchData = async () => {
-        const response = await axios.get("http://localhost:5000/api/v1/posts/")
+        const response = await axios.get("https://social-media-server-wbur.onrender.com/api/v1/posts/")
             if(response.data) {
                 console.log("postData",response.data.data);
                 setPosts(response.data.data)

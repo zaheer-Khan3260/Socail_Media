@@ -14,7 +14,7 @@ function PostCardSecond({ _id, owner, postFile, isLiked, likeCount, comment, cap
 
   useEffect(() => {
       const fetchData = async() => {
-    const response = await axios.post("http://localhost:5000/api/v1/users/getUserById", {userId: owner})
+    const response = await axios.post("https://social-media-server-wbur.onrender.com/api/v1/users/getUserById", {userId: owner})
       const userData = response.data
       if(userData){
         setUserData(userData.data)
@@ -26,7 +26,7 @@ function PostCardSecond({ _id, owner, postFile, isLiked, likeCount, comment, cap
 
   const handleLike = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/api/v1/like/toggle/v/postLike", {
+      const response = await axios.post("https://social-media-server-wbur.onrender.com/api/v1/like/toggle/v/postLike", {
         postId: _id,
       });
       

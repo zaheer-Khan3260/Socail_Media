@@ -17,7 +17,7 @@ export default function Post() {
     useEffect(() => {
         const fetchData = async() => {
         if (postId) {
-           await axios.get(`http://localhost:5000/api/v1/c/`, {
+           await axios.get(`https://social-media-server-wbur.onrender.com/api/v1/c/`, {
             params : {postId}
            }).then((post) => {
                 if (post) setPost(post);
