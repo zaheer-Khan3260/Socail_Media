@@ -16,7 +16,7 @@ function Login() {
    const login = async(data) => {
         setError("")
         try {
-               const response = await axios.post("/api/v1/users/login", data)
+               const response = await axios.post("http://localhost:5000/api/v1/users/login", data)
               const userData = response.data.data
                console.log("userdata by login", response.data.data);
           if (userData) {
