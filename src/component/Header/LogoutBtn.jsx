@@ -3,7 +3,6 @@ import {useDispatch} from 'react-redux'
 import logoutImage from '../Images/log-out.png'
 import {logout} from '../../store/authSlice'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import api from '../../api.js'
 
 function LogoutBtn() {
@@ -12,7 +11,7 @@ function LogoutBtn() {
     const logoutHandler = async() => {
         await api.post("/api/v1/users/logout").then(() => {
             dispatch(logout())
-            navigate('/signup')
+            navigate('/login')
         }).catch((err) => {
           console.log(err)
         })

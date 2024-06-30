@@ -9,7 +9,10 @@ import api from '../api.js';
 function Profile() {
   const [activePost, setActivePost] = useState(true);
   const [activeSavedPost, setActiveSavedPost] = useState(false);
-  const [posts, setPosts] = useState();
+  const [postCount, setPostCount] = useState(0)
+  const [posts, setPosts] = useState([]);
+
+  const [isFollowed, setIsFollowed] = useState(posts.isFollowed)
   const [profile, setProfile] = useState({})
   const [savedPost, setSavedPost] = useState([]);
   const { UserId } = useParams()
@@ -17,6 +20,18 @@ function Profile() {
   const navigate = useNavigate();
  
 const isAuthor = UserId && UserData && UserId === UserData._id ? true : false;
+
+const createFollow = async() => {
+  console.log("USER ID IN CREATE FOLLOW", UserId)
+  await api.post("/api/v1/subscription/isSubscribed", {
+    channelId: UserId
+  } ).then((res) => {
+    if(res.status === 200) setIsFollowed(!isFollowed);
+  }).catch((err) => {
+    console.log(err ? err.message : "An error occur while make Subscription")
+  })
+}
+
   useEffect(() => {
     if(UserId) {
       const fetchProfile = async() => {
@@ -26,19 +41,26 @@ const isAuthor = UserId && UserData && UserId === UserData._id ? true : false;
       const userData = response.data
       if(userData) setProfile(userData.data)
      }
-
      const fetchPosts = async() => {
       const response = await api.post(`/api/v1/posts/getUserPost`, {
             userId: UserId
       })
       const userPosts = response.data
       if(userPosts) setPosts(userPosts.data)
+        let count = 0;
+        userPosts.data.forEach(element => {
+          if(element) count++
+        });
+        setPostCount(count);
+        console.log("profile post data", userPosts.data);
      }
     fetchProfile()
     fetchPosts();
 
     }
   }, [UserData, navigate, UserId])
+
+  
 
 
   return (
@@ -76,15 +98,15 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
                   text-center justify-center h-full items-center'>
                     <div>
                         <div>Post</div>
-                        <div>0</div>
+                        <div>{postCount}</div>
                     </div>
                     <div className='mr-4 ml-4'>
                     <div>Followers</div>
-                        <div>0</div>
+                        <div>{profile.followerCount}</div>
                     </div>
                     <div>
                          <div>Following</div>
-                        <div>0</div>
+                        <div>{profile.followingCount}</div>
                         </div>
                   </div>
            </div>
@@ -107,7 +129,11 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
               onClick={() => navigate(`/profile/${UserId}/editprofile`)}
               >
                   Edit Profile
-              </div> : null
+              </div> : <div className=' border-2 border-black w-24 text-center h-7 rounded-xl mr-2'
+              onClick={createFollow}
+              >
+                  {isFollowed ? "Followed" : "Follow"}
+              </div>
             }
               
            </div>
@@ -133,19 +159,23 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
               onClick={() => navigate(`/profile/${UserId}/editprofile`)}
               >
                   Edit Profile
-              </div> : null
+              </div> : <div className=' border-2 border-black w-24 text-center h-7 rounded-xl mr-2'
+              onClick={createFollow}
+              >
+                  {isFollowed ? "Followed" : "Follow"}
+              </div>
             }
            </div>
            </div>
                 
       {/* post detail cont */}
       <div className=' w-full h-6 flex text-center text-[16px] mt-1 min-[950px]:hidden'>
-            <div className={`w-1/2 border-r-2 border-b-2 border-black hover:bg-gray-200 ${activePost ? `bg-gray-200` : null}`}
+            <div className={`w-1/2 border-r-2 border-b-2 border-black hover:bg-gray-200 ${activePost ? `bg-gray-200` : null} cursor-pointer`}
              onClick={() => {
                 setActivePost(true);
                 setActiveSavedPost(false);
             }}>Posts</div>
-            <div className={`w-1/2 hover:bg-gray-200 border-b-2 border-black ${savedPost ? `bg-gray-200` : null}`}
+            <div className={`w-1/2 hover:bg-gray-200 border-b-2 border-black ${savedPost ? `bg-gray-200` : null} cursor-pointer`}
             onClick={() => {
             setActiveSavedPost(true);
             setActivePost(false);
@@ -158,18 +188,13 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
         <div className='grid grid-cols-3 gap-[0.01rem]'>
         {
        posts ? ( posts.map((post) => (
-         post.UserId === UserId ? 
-
-          <div key={post.$id}
+          <div key={post._id}
           className='min-[375px]:h-36 min-[375px]:w-[5.8rem] min-[425px]:w-[6.6rem]
             min-[320px]:h-28 min-[320px]:w-[4.9rem] min-[950px]:w-[8.2rem] min-[950px]:h-48 bg-black mb-1 flex items-center justify-center'>
-                <img src={posts.postFile} alt="" 
-                className='h-full'
+                <img src={post.postFile} alt="" 
+                className='h-full object-contain'
                 />
-          </div> 
-          :null
-          
-          
+          </div>   
           ))) :
           <div className=' text-blue-600 font-bold'>Don't Upload any posts</div>
           }
@@ -203,12 +228,12 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
       </div>
       <div className='w-full hidden min-[950px]:block '>
       <div className=' w-full  h-6 flex text-center text-[16px] mt-2 min-[950px]:ml-[25rem] xl:justify-center xl:ml-0'>
-            <div className={`w-40 border-r-2 border-black hover:bg-gray-200 ${activePost ? `bg-gray-200` : null}`}
+            <div className={`w-40 border-r-2 border-black hover:bg-gray-200 ${activePost ? `bg-gray-200` : null} cursor-pointer`}
              onClick={() => {
                 setActivePost(true);
                 setActiveSavedPost(false);
             }}>Posts</div>
-            <div className={`w-40 hover:bg-gray-200 border-black ${savedPost ? `bg-gray-200` : null}`}
+            <div className={`w-40 hover:bg-gray-200 border-black ${savedPost ? `bg-gray-200` : null} cursor-pointer`}
             onClick={() => {
             setActiveSavedPost(true);
             setActivePost(false);
@@ -221,15 +246,10 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
         <div className=' grid grid-cols-3 gap-1'>
      {
       posts ? ( posts.map((post) => (
-         post.UserId === UserId ? 
-
-          <div key={post.$id}
+          <div key={post._id}
           className='ml-1 min-[950px]:w-full min-[950px]:h-48 bg-black mb-1 flex items-center justify-center'>
-                <img src={posts.postFile}  className='h-full ' alt=""/>
+                <img src={post.postFile}  className='h-full object-contain' alt=""/>
           </div> 
-          :null
-          
-          
           ))) : 
           <div className=' text-blue-600 font-bold'>Don't Upload any posts</div>
           }

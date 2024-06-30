@@ -18,7 +18,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`/api/v1/users/current-user`);
+        const response = await api.get("/api/v1/users/current-user");
         const userData = response.data.data
         console.log("userData in app.js",userData);
         if (userData) {
@@ -34,12 +34,6 @@ function App() {
     };
    fetchData();
   });
-
-  // useEffect(() => {
-  //   if (!loading && !userStatus) {
-  //     navigate("/login");
-  //   }
-  // }, [loading, userStatus, navigate]);
 
    return !loading ? (
    <div className='min-h-screen flex flex-wrap content-between bg-gray-400'>

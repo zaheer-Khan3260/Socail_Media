@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Input, Select, Button} from './index';
 import userImage from './Images/user.png'
+import api from '../api';
 
 function EditProfile() {
   const [profilePost, setProfilePost] = useState("");
@@ -18,54 +19,54 @@ function EditProfile() {
   };
   
   useEffect(() => {
+    const fetchUserProfileImage = async( ) => {
     if(UserId) {
-      appwriteServices.getProfileImage(UserId).then((post) => {
-        if(post) setProfilePost(post);
-        else navigate(`/profile/${UserId}/editprofile`);
-      })
+   const response =  await api.post("/api/v1/getUserById", {
+      userId: UserId
+     })
+    
+     const userData = response.data
+     console.log("userData response Data in edit profile", response.data);
+     if(userData.data) {
+      setProfilePost(userData.data)
+     }else{
+       navigate(`/profile/${UserId}/editprofile`);
+     }
     }
-  }, [userData, navigate, inputValue])
+  }
+  fetchUserProfileImage()
+  }, [UserId, deletePost])
   
   const {register, handleSubmit} = useForm({
     defaultValues: {
-      image: profilePost?.UserImage || "",
-      UserName: profilePost?.UserName || "",
-      Bio: profilePost?.Bio || "",
-      Gender: profilePost?.Gender || "",
-      DateOfBirth: profilePost?.DateOfBirth || "",
+      avatar: profilePost?.avatar || "",
+      username: profilePost?.username || "",
+      bio: profilePost?.bio || "",
   },
   });
     const submit = async (data) => {
+      const avatarFormData = new FormData()
+      if(data.avatar[0]){ 
+        avatarFormData.append("avatar", data.avatar[0])
+        await api.patch("/api/v1/update-avatar", avatarFormData)
+      }
      
-      if(profilePost){
-    const file = data.image[0] ? await appwriteServices.uploadUserProfileImage(data.image[0]) : null;
-
-    if(file) {
-      appwriteServices.deleteProfileImage(profilePost.UserImage);
-    }
-    const userDbPost = await appwriteServices.updateProfilePost(UserId, {
-      ...data,
-      UserImage: file ? file.$id : undefined,
-    });
-    if(userDbPost) navigate(`/profile/${UserId}`);
-      }else{
-
-    const file = data.image[0] ? await appwriteServices.uploadUserProfileImage(data.image[0]) : null;
-  
-    if(file) { 
-      const fileId = file.$id;
-      data.UserImage = fileId;
-      const userId = userData.$id;
-      const userDbPost = await appwriteServices.userData({...data, UserId:userId,} )
-      if(userDbPost) navigate(`/profile/${UserId}`);
-    }
-     }
+      if(data.username && data.bio && data.fullname){
+        const formData = new FormData();
+        formData.append("username", data.username)
+        formData.append("fullname", data.fullname)
+        formData.append("bio", data.bio)
+        formData.append("email", profilePost.email)
+    const response = await api.post("/api/v1/update-account-details", formData );
+    const userdata = response.data
+    if(userdata) navigate(`/profile/${UserId}`);
+      }
    }
-   const deletePost = () => {
-    appwriteServices.deleteProfilePost(profilePost.$id).then((status) => {
-        if (status) {
-          setProfilePost("");
-            appwriteServices.deleteProfileImage(profilePost.UserImage);  
+
+   const deletePost =async () => {
+   await api.get("/api/v1/deleteAvatar").then((status) => {
+        if (status === 200) {
+            setProfilePost(profilePost.avatar = "")
         }
     });
 };
@@ -78,9 +79,9 @@ function EditProfile() {
                 {/* image cont */}
                 <div className=' w-24 mx-auto lg:w-32  '>
                   {
-                    profilePost.UserImage ? <img src={appwriteServices.getUserImagePreview(profilePost.UserImage)} alt="" className='border border-black rounded-full' />
+                    profilePost.avatar ? <img src={profilePost.avatar} alt="" className='border border-black rounded-full object-contain' />
                     :
-                    <img src={userImage} alt="" className='border border-black rounded-full' />
+                    <img src={userImage} alt="" className='border border-black rounded-full object-contain' />
                   }
                 </div>
                 <div className='flex justify-end mt-2 '>
@@ -91,11 +92,11 @@ function EditProfile() {
                      className="absolute inset-0 z-50 w-full h-full opacity-0"
                       id="fileInput"
                       
-                      {...register("image", { required: !profilePost })}
+                      {...register("avatar", { required: !profilePost })}
                       />
                     <button className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-1 rounded">
                         {
-                          profilePost.UserImage ? "Change" : "Upload"
+                          profilePost.avatar ? "Change" : "Upload"
                         }
                        </button>
                           </div>
@@ -118,8 +119,7 @@ function EditProfile() {
                          value={inputValue}
                          className=" border-b-2 border-black focus:outline-none text-sm w-52 lg:text-lg"
                          onChange={handleInputChange}
-                        //  onClick={() => setInputValue('')}
-                         {...register("UserName", { required: true})}
+                         {...register("username", { required: !profilePost.username})}
                          />
                         </div>
                         <div className='mt-5 ml-1'>
@@ -127,7 +127,7 @@ function EditProfile() {
                  type="text"
                  placeholder='Bio'
                  className=" border-b-2 border-black focus:outline-none text-sm w-52 lg:text-lg"
-                 {...register("Bio", {required: true})}
+                 {...register("bio", {required: !profilePost.bio})}
                  />
                 </div>
                 <h6 className='mt-5 ml-1 text-sm mb-1 lg:text-lg'>Gender : </h6>
@@ -135,18 +135,8 @@ function EditProfile() {
                 <Select
                     options={["Male", "Female"]}
                     className="mb-4"
-                    {...register("Gender", { required: true })}
+                    {...register("Gender")}
                 />
-               </div>
-               <div className='flex justify-between text-sm mt-3 lg:text-lg lg:justify-normal'>
-                <p>Date Of Birth:</p>
-                <input
-                 type="date"
-                  name="dateOfBirth"
-                   id="dateOfBirth"
-                    className=' hover:outline-none border-b-2 border-black ml-3'
-                    {...register("DateOfBirth", { required: true })}
-                     />
                </div>
             </div>
             <Button type="submit" bgColor={profilePost ? "bg-green-500" : undefined} className="w-full">
