@@ -11,7 +11,6 @@ function Profile() {
   const [activeSavedPost, setActiveSavedPost] = useState(false);
   const [postCount, setPostCount] = useState(0)
   const [posts, setPosts] = useState([]);
-
   const [isFollowed, setIsFollowed] = useState(posts.isFollowed)
   const [profile, setProfile] = useState({})
   const [savedPost, setSavedPost] = useState([]);

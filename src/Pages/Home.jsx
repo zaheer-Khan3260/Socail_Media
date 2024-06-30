@@ -14,7 +14,7 @@ function Home() {
             }
     }
    if(userStatus) {fetchData()}
-    }, [userStatus])
+}, [userStatus])
 
 
 if(userStatus) {
