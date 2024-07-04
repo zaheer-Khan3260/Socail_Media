@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import Input from './Input'
-import { Link, useAsyncError } from 'react-router-dom'
+import { Link} from 'react-router-dom'
 import UserTemplate from './UserTemplate'
 import useGetConversation from "../Hooks/useGetConversation.js"
-import api from '../api.js'
 import {useSelector} from 'react-redux'
 
 
 
 function Message() {
   const {loading, conversation} = useGetConversation()
-  const[recieverUserData, setRecieverUserData] = useState([]);
-  const[recieverId, setrecieverId] = useState([])
   const userData = useSelector((state) => state.auth.userData)
 
   console.log("Conversation", conversation)

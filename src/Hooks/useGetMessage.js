@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import api from '../api';
 
 function useGetMessage( chatToId ) {
@@ -22,8 +22,6 @@ function useGetMessage( chatToId ) {
         fetchMessages();
      return {loading ,messages}
     }, [])
-
-
 
 }
 
