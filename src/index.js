@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-
 import store from '../src/store/store.js';
 import './index.css';
 import App from './App';
@@ -17,7 +16,9 @@ import EditPostPages from './Pages/EditPostPages.jsx';
 import {ProtectedLayer, Login} from './component/index.js';
 import ProfilePage from './Pages/ProfilePage.jsx';
 import EditUserProfile from './Pages/EditUserProfile.jsx';
-import { logout } from './store/authSlice.js';
+import MessagePages from './Pages/MessagePages.jsx';
+import Chatdisplay from './Pages/Chatdisplay.jsx';
+
 
 axios.defaults.withCredentials = true;
 window.Buffer = Buffer
@@ -58,6 +59,25 @@ const router = createBrowserRouter([
                 <ProtectedLayer authentication>
                     {" "}
                     <AddPost />
+                </ProtectedLayer>
+            ),
+        },
+
+        {
+            path: "/messages",
+            element: (
+                <ProtectedLayer authentication>
+                    {" "}
+                    <MessagePages />
+                </ProtectedLayer>
+            ),
+        },
+        {
+            path: "/chatDisplay/:conversationId",
+            element: (
+                <ProtectedLayer authentication>
+                    {" "}
+                    <Chatdisplay />
                 </ProtectedLayer>
             ),
         },
