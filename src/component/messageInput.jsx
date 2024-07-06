@@ -1,10 +1,30 @@
 import { useState } from "react";
 import { BsSend } from "react-icons/bs";
-import useSendMessage from "../../hooks/useSendMessage";
+import api from "../api";
 
-const MessageInput = () => {
+
+
+const MessageInput = ({_id}) => {
 	const [message, setMessage] = useState("");
-	const { loading, sendMessage } = useSendMessage();
+	const [loading, setLoading] = useState(false)
+	const sendMessage = async(message) => {
+		console.log("Reciver Id in input message", _id)
+		try {
+			setLoading(true)
+			await api.post("/api/v1/message/sendMessage", {
+			  message,
+			  recieverId: _id
+			}).then((res) => {
+			  if(res.status){
+				return true
+			  }
+			})
+			setLoading(false)
+		  } catch (error) {
+			  console.log("error in sending message: ",error )
+			  setLoading(false)
+		  }
+	}
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
