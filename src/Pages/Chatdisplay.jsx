@@ -1,19 +1,22 @@
 import React, { useEffect, useState, useRef} from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import backButton from "../component/Images/left.png"
 import api from '../api'
 import MessageSkeleton from '../component/MessageSkeleton'
 import MessageInput from '../component/MessageInput';
+import { sendFinished } from '../store/messageSlice'
 
 function Chatdisplay() {
+  const dispatch = useDispatch()
   const [conversation, setConversation] = useState([])
   const [conversationUserData, setConversationUserData] = useState([])
   const [recieverId, setRecieverId] = useState()
   const { conversationId } = useParams()
+  const messageStatus = useSelector((state) => state.message.status)
   const currentUserData = useSelector((state) => state.auth.userData);
   const lastMessageRef = useRef();
-
+console.log("message status", messageStatus);
   useEffect(() => {
     const fetchConversation = async() => {
     const response = await api.post("/api/v1/message/getConversationById", {conversationId: conversationId})
@@ -25,7 +28,8 @@ function Chatdisplay() {
     }
     }
     fetchConversation();
-  }, [])
+    dispatch(sendFinished())
+  }, [conversationId, messageStatus])
 
   useEffect(() => {
     if(conversationUserData.length > 0){
@@ -41,8 +45,6 @@ function Chatdisplay() {
 			lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
 		}, 100);
 	}, [conversation]);
-
-
   return (
     <div className='md:min-w-[450px] flex flex-col'>
 			{conversationUserData.length > 0 ? (
