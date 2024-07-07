@@ -6,7 +6,6 @@ import useGetConversation from "../Hooks/useGetConversation.js"
 import {useSelector} from 'react-redux'
 
 
-
 function Message() {
   const {loading, conversation} = useGetConversation()
   const userData = useSelector((state) => state.auth.userData)

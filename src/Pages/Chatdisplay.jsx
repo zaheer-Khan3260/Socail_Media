@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import backButton from "../component/Images/left.png"
 import api from '../api.js'
 import MessageSkeleton from '../component/index.js'
-import MessageInput from "../component/index.js";
+import MessageInputNew from '../component/MessageInputNew.jsx'
 import { sendFinished } from '../store/messageSlice.js'
 import { conversationEnd, conversationSend } from '../store/conversationSlice.js'
 
@@ -86,7 +86,7 @@ function Chatdisplay() {
           </div>
 
           {/* input field */}
-          <MessageInput {...recieverId}/>
+          <MessageInputNew {...recieverId}/>
 				</>
 			) : null
     }
