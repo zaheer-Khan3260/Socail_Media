@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Input, Select } from "./index";
+import { Button,Select } from "./index.js";
 import { useNavigate } from "react-router-dom";
+import Input from "./Input.jsx"
 import api from "../api.js"
 
 export default function PostForm({ post }) {
@@ -68,14 +69,15 @@ export default function PostForm({ post }) {
     };
 
     return (
-        <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
+        <form onSubmit={handleSubmit(submit)} className="md:flex flex-wrap">
             <div className="w-2/3 px-2">
-                <Input
-                    label="Caption :"
-                    placeholder="Caption"
-                    className="mb-4"
-                    {...register("caption", { required: true })}
-                />
+            <Input
+            type="text"
+            label="Caption :"
+            placeholder="Caption"
+            className="mb-4"
+            {...register("caption", { required: true })}
+            />
             </div>
             <div className="w-1/3 px-2">
                 <Input

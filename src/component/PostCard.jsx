@@ -1,73 +1,243 @@
-import React, {useState} from 'react'
-import {Link} from 'react-router-dom'
-import likeButton from '../component/Images/heart.png'
-import afterLikeButton from '../component/Images/heartcolored.png'
-import commentImage from "../component/Images/comment.png"
-import shareImage from '../component/Images/send.png'
+import React, { useEffect, useState,useRef } from "react";
+import userImage from "./Images/user.png";
+import commentImage from "./Images/comment.png";
+import { Link } from "react-router-dom";
+import api from "../api.js";
+import { useSelector } from "react-redux";
+import menuImage from "./Images/more.png"
+import muteImage from "./Images/mute.png"
+import volumeImage from "./Images/volume.png"
+import Input from "./Input.jsx";
 
-function PostCard(
-    $id,
-    userName,
-    fearturedImage,
-    content,
+function PostCard({
+  _id,
+  owner,
+  postFile,
+  isLiked,
+  likeCount,
+  comment,
+  caption,
+}) {
 
-) {
-    const [isliked, setIsLiked] = useState(false)
-    const [likeCount, setLikedCount] = useState(0);
-  
-    const count = () => {
-      if(isliked) {
-        setLikedCount(prevLikeCount => prevLikeCount + 1);
+  const [userData, setUserData] = useState(null);
+  const [isVideo, setIsVideo] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true)
+  const [currentLikeStatus, setCurrentLikeStatus] = useState(isLiked);
+  const [currentLikeCount, setCurrentLikeCount] = useState(likeCount);
+  const videoRef = useRef(null);
+  const [menuIsOpen, setMenuIsOpen] = useState(false)
+  const containerRef = useRef(null);
+  const currentUserData = useSelector((state) => state.auth.userData)
+
+  const toggleMenu = () => {
+    setMenuIsOpen(!menuIsOpen)
+  }
+
+  const toggleMute = () => {
+    setIsMuted(!isMuted)
+  }
+
+  const deletePost = async() => {
+    await api.post("/api/v1/posts/deletePost", {
+        postId: _id 
+    }).then((res) => {
+      if(res.status === 200){
+        return true
       }
+    }).catch((err) => {
+      console.log(err ? err.message : "An error occur while delete the post")
+    })
+  }
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await api.post("/api/v1/users/getUserById", {
+        userId: owner,
+      });
+      const userData = response.data;
+      if (userData) {
+        setUserData(userData.data);
+      }
+    };
+    function getFileType(postFile) {
+      const extension = postFile.split('.').pop().toLowerCase();
+  
+  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
+  const videoExtensions = ['mp4', 'webm', 'ogg', 'mov'];
+
+  if (imageExtensions.includes(extension)) {
+    setIsVideo(false);
+  } else if (videoExtensions.includes(extension)) {
+    setIsVideo(true);
+  }
     }
-  
-  
-    return (
-        <Link to={`/post/${$id}`}>
-      <div className='w-60 h-80 border-2 border-black mt-2 mx-auto'> 
-  
-      {/* profile image and username cont */}
-  
-        <div className='w-full mx-auto h-12 flex border-2 border-blue-700'>
-              <div className='w-8 h-8 ml-1 mt-1'>
+    getFileType(postFile);
+    fetchData();
+    setIsMounted(true);
+  }, [owner]);
+
+  const handleLike = async () => {
+    try {
+      const response = await api.post("/api/v1/like/toggle/v/postLike", {
+        postId: _id,
+      });
+
+      if (response.data.data.success) {
+        setCurrentLikeStatus(!currentLikeStatus);
+        setCurrentLikeCount((prevCount) =>
+          currentLikeStatus ? prevCount - 1 : prevCount + 1
+        );
+      }
+    } catch (err) {
+      console.error("An error occurred while liking the post:", err.message);
+    }
+  };
+
+  useEffect(() => {
+    if (!isVideo || !isMounted || !videoRef.current) return;
+
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.5, // Trigger when 50% of the video is visible
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && videoRef.current) {
+          videoRef.current.currentTime = 0; // Reset to beginning
+          videoRef.current.play();
+        } else if(videoRef.current) {
+          videoRef.current.pause();
+        }
+      });
+    }, options);
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
+    };
+  }, [isVideo, isMounted]);
+
+  return (
+    <div className="mb-8 w-full h-full bg-white rounded-lg shadow-lg md:w-[468px] pb-4">
+      <div className="flex flex-col p-3">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex">
+          <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center transition-transform duration-300 hover:scale-105">
+            {
+              userData ? (
                 <img
-                 src={content} 
-                 alt="" 
-                 className='rounded-full bg-cover'
-                 />
+                  src={userData.avatar ? userData.avatar : userImage}
+                  alt="userProfile"
+                  className="w-full h-full object-cover rounded-full"
+                />
+              ) : null
+            }
+          </div>
+          <div className="ml-3">
+          <Link to={`/profile/${owner}`}>
+            <p className="text-lg font-bold text-gray-900">{userData ? userData.username : null}</p>
+            </Link>
+            {/* <p className="text-sm text-gray-500">8:00PM, 05-07-2024</p> */}
+          </div>
+          </div>
+          <div className=" relative cursor-pointer" >
+          <div onClick={toggleMenu}>
+          <img src={menuImage} alt="" className=" h-8" />
+          </div>
+          <div className={`w-24 h-28 rounded-2xl bg-slate-500 z-50 absolute right-0 top-12 text-white text-center opacity-75 ${menuIsOpen? "block" : "hidden"}`}>
+            <div 
+            className={` text-red-800 font-bold text-[20px] border-b border-gray-600 cursor-pointer ${currentUserData._id === owner ? "block" : "hidden"}`}
+            onClick={deletePost}
+            >
+              Delete
               </div>
-                 <div className='ml-1 mt-2'>
-                  {userName}
-                 </div>
+          </div>
         </div>
-  
-        {/* content cont */}
-  
-        <div className='border-2 border-green-800 h-56'>
-            {fearturedImage}
         </div>
-        {/* like,comment and share cont */}
-        <div className='border-2 border-red-800 h-11'>
-          <div className='flex mt-2 ml-1'>
-            <div className=''>
-            <img src={likeButton} alt=""
-             className={`w-6 h-6 mr-2 ${isliked ? 'hidden' : 'block'}`}
-              onClick={() => {
-              setIsLiked(true)
-               count()
-               }}
-               />
-            <img src={afterLikeButton} alt=""  className={`w-6 h-6 mr-2 ${isliked ? 'block' : 'hidden'}`} onClick={() => setIsLiked(false)}/>
-            <p className='ml-2 mt-[-10px]'>{likeCount}</p>
-            </div>
-            <img src={commentImage} alt=""  className='w-6 h-6 mr-2' />
-            <img src={shareImage} alt=""  className='w-5 h-5 mt-[3px]' />
-            </div>
+
+        {/* Caption */}
+        <p className="text-base text-gray-900 mb-3">
+        {caption}
+        </p>
+
+        {isVideo ? (
+        <div 
+        ref={containerRef}
+        className="w-full h-full md:h-[35rem] bg-blue-500 rounded-lg overflow-hidden mb-1 relative">
+          <Link to={`/post/${_id}`}>
+          <video 
+          ref={videoRef}
+          width="100%" 
+          muted= {isMuted}
+          loop 
+          playsInline // Important for mobile devices
+        >
+          <source src={postFile} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+       
+        </Link>
+        <div
+        onClick={toggleMute}
+        className=" border-2 border-black w-8 h-8 rounded-2xl bg-gray-500 opacity-50 absolute bottom-4 right-4 text-center">
+          <img src={isMuted ? muteImage : volumeImage} alt="" className="w-7 invert"/>
+        </div>
+          </div>
+      ) : (
+        <Link to={`/post/${_id}`}>
+        <div className="w-full bg-blue-500 rounded-lg overflow-hidden mb-1">
+          <img
+            src={postFile}
+            alt="Main content"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        </Link>
+      )}
+
+        {/* Like and comment container */}
+        <div className="flex items-center mt-3 space-x-4 mb-2">
+          <div 
+          className={`flex items-center space-x-1 ${isLiked ? "liked" : ""} action-button`}
+          onClick={handleLike}
+          >
+          {isLiked ? "❤️" : "🤍"}
+            <p className="text-base text-gray-900">{currentLikeCount}</p>
+          </div>
+          <div className="flex items-center space-x-1">
+            <img
+              src={commentImage}
+              alt="Comment"
+              className="w-6 h-6 transition-transform duration-300 hover:scale-105"
+            />
+            <p className="text-base text-gray-900">0</p>
+          </div>
         </div>
       </div>
-      </Link>      
-    )
-  
+      <div className=" w-full h-10 flex items-center">
+        <div className="w-9 h-9 border border-gray-500 rounded-full flex justify-center text-center ml-1 object-contain">
+          <img
+            src={currentUserData ? currentUserData.avatar : userImage}
+            alt=""
+            className=" rounded-full w-9 h-9"
+          />
+        </div>
+        <div className="ml-1">
+          <Input
+          placeholder = "Comment.."
+          />
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default PostCard
+export default PostCard;

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { useSelector } from 'react-redux'
-import { Container, Login, PostCardSecond} from '../component/index'
+import { Container, Login, PostCard} from '../component/index'
 import api from '../api.js';
 function Home() {
     const [posts, setPosts] = useState([])
@@ -26,8 +26,8 @@ if(userStatus) {
                 {
                 posts ? (
                 posts.map((post) => (
-                    <div key={post._id} className='p-2 w-full mx-auto'>
-                        <PostCardSecond {...post} />
+                    <div key={post._id} className=' w-full p-2'>
+                        <PostCard {...post} />
                     </div>
                 ))
                 ):
