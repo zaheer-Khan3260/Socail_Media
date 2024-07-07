@@ -10,13 +10,15 @@ import Container from './Container/Container.jsx'
 import PostCardSecond from './PostCardSecond.jsx'
 import Button from "./Button.jsx";
 import Select from "./Select.jsx";
-import RTE from "./RTE.jsx";
 import LogoutBtn from './Header/LogoutBtn.jsx'
+import MessageInput from "./MessageInput.jsx";
+import MessageSkeleton from "./MessageSkeleton.jsx";
 
 
 
 export  {
  Header,
+ MessageSkeleton,
  Footer,
  Input,
  PostCard,
@@ -29,5 +31,5 @@ export  {
  Button,
  Select,
  LogoutBtn,
- RTE,
+ MessageInput
 }
