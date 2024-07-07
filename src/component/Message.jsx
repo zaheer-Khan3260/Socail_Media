@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Input from './Input'
 import { Link} from 'react-router-dom'
-import UserTemplate from './UserTemplate'
+import UserTemplate from './UserTemplate.jsx'
 import useGetConversation from "../Hooks/useGetConversation.js"
 import {useSelector} from 'react-redux'
 
@@ -16,10 +16,10 @@ function Message() {
   
   
   return (
-    <div className='w-full border-2 border-blue-600 flex justify-end'>
+    <div className='w-full md:w-[16rem] lg:w-[18rem] xl:w-[20rem] h-screen'>
     
      {/* for the User That we can chat for mobile*/}
-  <div className="h-screen w-full border-2 border-green-800">
+  <div className="h-screen w-full border-2 border-green-800 sticky top-0">
     {/* search container */}
     <div className='p-3'>
     <Input
@@ -28,10 +28,10 @@ function Message() {
     />
     </div>
     {/* userData container */}
-    <div className='w-full p-2'>
+    <div className='w-full p-2 overflow-y-auto'>
       {
         conversation ? conversation.map((conversation) => (
-        <Link to= {`/chatDisplay/${conversation._id}`}>
+        <Link to= {`${conversation._id}`}>
           {conversation.conversationBetween.filter((element) => element._id !== userData._id)
           .map((reciever) => (
             <UserTemplate {...reciever}/>
@@ -40,17 +40,8 @@ function Message() {
         </Link>
         )) : <div>You didn't send message anyone</div>
       }
-        
-
     </div>
-
   </div>
-
-   {/* chat display */}
-
-{/* <div className='w-[60%] border-2 border-yellow-600'>
-
-</div> */}
 </div>
   )
 }

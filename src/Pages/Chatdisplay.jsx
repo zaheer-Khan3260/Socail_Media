@@ -2,10 +2,11 @@ import React, { useEffect, useState, useRef} from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import backButton from "../component/Images/left.png"
-import api from '../api'
-import MessageSkeleton from '../component/MessageSkeleton'
-import MessageInput from '../component/MessageInput';
-import { sendFinished } from '../store/messageSlice'
+import api from '../api.js'
+import MessageSkeleton from '../component/MessageSkeleton.jsx'
+import MessageInput from '../component/MessageInput.jsx';
+import { sendFinished } from '../store/messageSlice.js'
+import { conversationEnd, conversationSend } from '../store/conversationSlice.js'
 
 function Chatdisplay() {
   const dispatch = useDispatch()
@@ -16,7 +17,8 @@ function Chatdisplay() {
   const messageStatus = useSelector((state) => state.message.status)
   const currentUserData = useSelector((state) => state.auth.userData);
   const lastMessageRef = useRef();
-console.log("message status", messageStatus);
+
+
   useEffect(() => {
     const fetchConversation = async() => {
     const response = await api.post("/api/v1/message/getConversationById", {conversationId: conversationId})
@@ -25,6 +27,7 @@ console.log("message status", messageStatus);
     const conversationData = response.data.data.messages
     setConversationUserData(usersData)
     setConversation(conversationData);
+    dispatch(conversationSend(usersData))
     }
     }
     fetchConversation();
@@ -45,14 +48,16 @@ console.log("message status", messageStatus);
 			lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
 		}, 100);
 	}, [conversation]);
+
+
   return (
-    <div className='md:min-w-[450px] flex flex-col'>
-			{conversationUserData.length > 0 ? (
+    <div className='lg:min-w-[400px] md:min-w-[300px] xl:min-w-[775px] flex flex-col h-screen overflow-auto'>
+			{conversationUserData ? (
 				<>
 					{/* Header */}
-					<div className='bg-slate-500 py-2 mb-2 flex'>
+					<div className='bg-slate-500 py-2 mb-2 flex cursor-pointer'>
             <Link to="/messages">
-        <button className='w-10'>
+        <button className='w-10' onClick={() => dispatch(conversationEnd())}>
           <img src={backButton} alt="" />
         </button>
         </Link>
@@ -90,3 +95,5 @@ console.log("message status", messageStatus);
 }
 
 export default Chatdisplay
+
+

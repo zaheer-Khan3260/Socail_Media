@@ -3,7 +3,7 @@ import { extractTime } from "../utils/extractTime.js";
 import userImage from "./Images/user.png"
 import api from "../api.js";
 import { useDispatch } from "react-redux";
-import { sendFinished } from "../store/messageSlice.js";
+import { send, sendFinished } from "../store/messageSlice.js";
 
 const MessageSkeleton = ({ message, createdAt, senderId, _id}) => {
 	const userData = useSelector((state) => state.auth.userData)
@@ -18,7 +18,7 @@ const MessageSkeleton = ({ message, createdAt, senderId, _id}) => {
 		await api.post("/api/v1/message/deleteMessage", {messageId: _id}).then((res) => {
 			if(res.status) {
 				return true
-				dispatch(sendFinished());
+				dispatch(send());
 			}
 		}).catch((err) => {
 			console.log("An error occour while delte the message: ", err)
@@ -26,9 +26,8 @@ const MessageSkeleton = ({ message, createdAt, senderId, _id}) => {
 
 	}
 	
-	const shakeClass = message ? "shake" : "";
 	return (
-		<div className={`chat ${chatClassName} relative group`} key={_id}>
+		<div className={`chat ${chatClassName} relative group cursor-pointer`} key={_id}>
 			<div className='chat-image avatar flex'>
 				<div className='w-10 h-10 rounded-full object-fill'>
 					<img alt='Tailwind CSS chat bubble component' src={profilePic} className="rounded-full w-10 h-10" />

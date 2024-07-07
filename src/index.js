@@ -71,15 +71,17 @@ const router = createBrowserRouter([
                     <MessagePages />
                 </ProtectedLayer>
             ),
-        },
-        {
-            path: "/chatDisplay/:conversationId",
-            element: (
-                <ProtectedLayer authentication>
-                    {" "}
-                    <Chatdisplay />
-                </ProtectedLayer>
-            ),
+            children:[
+                {
+                    path: ":conversationId",
+                    element: (
+                        <ProtectedLayer authentication>
+                            {" "}
+                            <Chatdisplay />
+                        </ProtectedLayer>
+                    ),
+                },
+            ]
         },
         {
             path: "/edit-post/:slug",
