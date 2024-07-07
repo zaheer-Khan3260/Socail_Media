@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import backButton from "../component/Images/left.png"
 import api from '../api.js'
-import MessageSkeleton from '../component/index.js'
+import MessageSkeleton from '../component/MessageSkeleton.jsx'
 import MessageInputNew from '../component/MessageInputNew.jsx'
 import { sendFinished } from '../store/messageSlice.js'
 import { conversationEnd, conversationSend } from '../store/conversationSlice.js'
