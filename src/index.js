@@ -17,7 +17,7 @@ import {ProtectedLayer, Login} from './component/index.js';
 import ProfilePage from './Pages/ProfilePage.jsx';
 import EditUserProfile from './Pages/EditUserProfile.jsx';
 import Chatdisplay from './Pages/Chatdisplay.jsx';
-import MessagePages from './Pages/messagePages.jsx';
+import MessagePagesNew from './Pages/MessagePagesNew.jsx';
 
 
 axios.defaults.withCredentials = true;
@@ -68,7 +68,7 @@ const router = createBrowserRouter([
             element: (
                 <ProtectedLayer authentication>
                     {" "}
-                    <MessagePages />
+                    <MessagePagesNew />
                 </ProtectedLayer>
             ),
             children:[
