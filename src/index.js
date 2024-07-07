@@ -16,8 +16,8 @@ import EditPostPages from './Pages/EditPostPages.jsx';
 import {ProtectedLayer, Login} from './component/index.js';
 import ProfilePage from './Pages/ProfilePage.jsx';
 import EditUserProfile from './Pages/EditUserProfile.jsx';
-import MessagePages from './Pages/MessagePages.jsx';
 import Chatdisplay from './Pages/Chatdisplay.jsx';
+import MessagePages from './Pages/messagePages.jsx';
 
 
 axios.defaults.withCredentials = true;
