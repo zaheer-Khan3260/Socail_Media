@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 
 
 
-const MessageInput = ({_id}) => {
+const MessageInputNew = ({_id}) => {
 	const [message, setMessage] = useState("");
 	const [loading, setLoading] = useState(false)
 	const dispatch = useDispatch()
@@ -53,5 +53,5 @@ const MessageInput = ({_id}) => {
 		</form>
 	);
 };
-export default MessageInput;
+export default MessageInputNew;
 

@@ -11,7 +11,6 @@ import PostCardSecond from './PostCardSecond.jsx'
 import Button from "./Button.jsx";
 import Select from "./Select.jsx";
 import LogoutBtn from './Header/LogoutBtn.jsx'
-import MessageInput from "./MessageInput.jsx";
 import MessageSkeleton from "./MessageSkeleton.jsx";
 
 
@@ -31,5 +30,5 @@ export  {
  Button,
  Select,
  LogoutBtn,
- MessageInput
+
 }
