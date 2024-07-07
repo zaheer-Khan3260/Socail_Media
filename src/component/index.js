@@ -16,7 +16,6 @@ import LogoutBtn from './Header/LogoutBtn.jsx'
 
 export  {
  Header,
- MessageSkeleton,
  Footer,
  Input,
  PostCard,
