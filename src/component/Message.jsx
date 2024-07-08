@@ -30,8 +30,8 @@ function Message() {
     <div className='w-full p-2 overflow-y-auto'>
       {
         conversation ? conversation.map((conversation) => (
-        <Link to= {`${conversation._id}`}>
-          {conversation.conversationBetween.filter((element) => element._id !== userData._id)
+        <Link to= {`${conversation?._id}`}>
+          {conversation.conversationBetween.filter((element) => element._id !== userData?._id)
           .map((reciever) => (
             <UserTemplate {...reciever}/>
           ))

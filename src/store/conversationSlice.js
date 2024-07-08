@@ -11,7 +11,8 @@ const conversationSlice = createSlice({
     reducers: {
         conversationSend: (state, action) => {
             state.status = true;
-            state.conversationData = action.payload.conversationData;
+            state.conversationData = action.payload;
+
         },
 
         conversationEnd: (state) => {

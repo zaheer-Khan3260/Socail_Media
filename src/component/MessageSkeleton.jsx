@@ -3,11 +3,10 @@ import { extractTime } from "../utils/extractTime.js";
 import userImage from "./Images/user.png"
 import api from "../api.js";
 import { useDispatch } from "react-redux";
-import { send, sendFinished } from "../store/messageSlice.js";
 
 const MessageSkeleton = ({ message, createdAt, senderId, _id}) => {
 	const userData = useSelector((state) => state.auth.userData)
-	const fromMe = senderId === userData._id;
+	const fromMe = senderId === userData?._id;
 	const dispatch = useDispatch()
 	const formattedTime = extractTime(createdAt);
 	const chatClassName = fromMe ? "chat-end" : "chat-start";
@@ -18,7 +17,6 @@ const MessageSkeleton = ({ message, createdAt, senderId, _id}) => {
 		await api.post("/api/v1/message/deleteMessage", {messageId: _id}).then((res) => {
 			if(res.status) {
 				return true
-				dispatch(send());
 			}
 		}).catch((err) => {
 			console.log("An error occour while delte the message: ", err)

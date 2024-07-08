@@ -8,11 +8,7 @@ function useGetMessage( chatToId ) {
     useEffect(() => {
         const fetchMessages = async() => {
             setLoading(true)
-           const response =  await api.post("/api/v1/message/getMessage", {
-                params: {
-                    userToChat: chatToId
-                }
-            })
+           const response =  await api.post("/api/v1/message/getMessage", {userToChat: chatToId})
           const messages =  response.data
             if(messages.data) {
                 setMessages(messages.data)
@@ -22,7 +18,6 @@ function useGetMessage( chatToId ) {
         fetchMessages();
      return {loading ,messages}
     }, [])
-
 }
 
 export default useGetMessage

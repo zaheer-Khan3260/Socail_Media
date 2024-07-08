@@ -5,12 +5,13 @@ import backButton from "../component/Images/left.png"
 import api from '../api.js'
 import MessageSkeleton from '../component/MessageSkeleton.jsx'
 import MessageInputNew from '../component/MessageInputNew.jsx'
-import { sendFinished } from '../store/messageSlice.js'
-import { conversationEnd, conversationSend } from '../store/conversationSlice.js'
+import { conversationEnd } from '../store/conversationSlice.js'
+import useListenMessages from '../Hooks/useListenMessages.js'
 
 function Chatdisplay() {
   const dispatch = useDispatch()
   const [conversation, setConversation] = useState([])
+  useListenMessages();
   const [conversationUserData, setConversationUserData] = useState([])
   const [recieverId, setRecieverId] = useState()
   const { conversationId } = useParams()
@@ -27,16 +28,14 @@ function Chatdisplay() {
     const conversationData = response.data.data.messages
     setConversationUserData(usersData)
     setConversation(conversationData);
-    dispatch(conversationSend(usersData))
     }
     }
     fetchConversation();
-    dispatch(sendFinished())
   }, [conversationId, messageStatus])
 
   useEffect(() => {
     if(conversationUserData.length > 0){
-      const reciever = conversationUserData.find(user => user._id !== currentUserData._id)
+      const reciever = conversationUserData.find(user => user._id !== currentUserData?._id)
       if(reciever) {
         setRecieverId(reciever)
       }
@@ -62,7 +61,7 @@ function Chatdisplay() {
         </button>
         </Link>
           { conversationUserData
-          .filter(user => user._id !== currentUserData._id)
+          .filter(user => user?._id !== currentUserData?._id)
               .map((reciever) => (
                <div className='flex justify-start'>
                 <div className=' w-11 h-11 bg-white border-2 border-gray-500 rounded-full ml-2 text-center object-fill'>

@@ -9,7 +9,6 @@ import Home from './Pages/Home.jsx';
 import SignupPage from './Pages/SignupPage.jsx';
 import axios from 'axios';
 import { Buffer } from 'buffer';
-// import AllPost from './Pages/AllPosts.jsx';
 import AddPost from './Pages/AddPost.jsx'
 import Post from './Pages/Post.jsx';
 import EditPostPages from './Pages/EditPostPages.jsx';
@@ -18,11 +17,13 @@ import ProfilePage from './Pages/ProfilePage.jsx';
 import EditUserProfile from './Pages/EditUserProfile.jsx';
 import Chatdisplay from './Pages/Chatdisplay.jsx';
 import MessagePagesNew from './Pages/MessagePagesNew.jsx';
-import { SocketContextProvider } from './store/socketContext.js';
+import { SocketContextProvider } from './component/context/SocketContext.jsx';
 
 
 axios.defaults.withCredentials = true;
 window.Buffer = Buffer
+
+
 const router = createBrowserRouter([
     {
         path: "/login",
