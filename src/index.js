@@ -18,6 +18,7 @@ import ProfilePage from './Pages/ProfilePage.jsx';
 import EditUserProfile from './Pages/EditUserProfile.jsx';
 import Chatdisplay from './Pages/Chatdisplay.jsx';
 import MessagePagesNew from './Pages/MessagePagesNew.jsx';
+import { SocketContextProvider } from './store/socketContext.js';
 
 
 axios.defaults.withCredentials = true;
@@ -116,7 +117,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+    <SocketContextProvider>
     <RouterProvider router={router} />
+    </SocketContextProvider>
     </Provider>
   </React.StrictMode>
 );
