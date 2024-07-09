@@ -17,7 +17,7 @@ export const SocketContextProvider = ({children}) => {
     useEffect(() => {
         let socket;
         if(userData) {
-            socket = io("http://localhost:5000", {
+            socket = io("https://social-media-server-wbur.onrender.com", {
                 query: {
                     userId: userData._id
                 }
