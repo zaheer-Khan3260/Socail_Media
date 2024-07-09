@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { BsSend } from "react-icons/bs";
 import api from "../api";
+import { useDispatch } from "react-redux";
+import { sendMessages } from "../store/messageSlice";
 
 
 const MessageInputNew = ({_id}) => {
 	const [message, setMessage] = useState("");
 	const [loading, setLoading] = useState(false)
+	const dispatch = useDispatch();
 	const sendMessage = async(message) => {
-		console.log("Reciver Id in input message", _id)
 		try {
 			setLoading(true)
 		const res = await api.post("/api/v1/message/sendMessage", {
@@ -16,6 +18,7 @@ const MessageInputNew = ({_id}) => {
 			})
 			if(res){
 				const messageData = res.data.data
+				dispatch(sendMessages(messageData))
 			}
 			setLoading(false)
 		  } catch (error) {

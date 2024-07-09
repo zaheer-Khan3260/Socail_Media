@@ -6,12 +6,13 @@ import api from '../api.js'
 import MessageSkeleton from '../component/MessageSkeleton.jsx'
 import MessageInputNew from '../component/MessageInputNew.jsx'
 import { conversationEnd } from '../store/conversationSlice.js'
-import useListenMessages from '../Hooks/useListenMessages.js'
+import { endMessages } from '../store/messageSlice.js'
+import { useSocketContext } from '../component/context/SocketContext.jsx'
 
 function Chatdisplay() {
   const dispatch = useDispatch()
   const [conversation, setConversation] = useState([])
-  useListenMessages();
+  const {socket} = useSocketContext()
   const [conversationUserData, setConversationUserData] = useState([])
   const [recieverId, setRecieverId] = useState()
   const { conversationId } = useParams()
@@ -28,10 +29,26 @@ function Chatdisplay() {
     const conversationData = response.data.data.messages
     setConversationUserData(usersData)
     setConversation(conversationData);
+    dispatch(endMessages())
     }
     }
     fetchConversation();
   }, [conversationId, messageStatus])
+
+  useEffect(() => {
+    if (!socket) {
+      return;
+    }
+      const messageHandler = (newMessage) => {
+          setConversation((prevConversation) =>
+             [...prevConversation, newMessage])
+      }
+      socket.on("newMessage", messageHandler);
+      return () => {
+        socket?.off("newMessage")
+      }
+      
+  },[socket, setConversation, conversation])
 
   useEffect(() => {
     if(conversationUserData.length > 0){

@@ -20,7 +20,6 @@ function UserTemplate( {
   }
   const dispatch = useDispatch()
   const {onlineUsers} = useSocketContext();
-  console.log("Online users",onlineUsers)
   let isOnline;
   if(_id){
    isOnline = onlineUsers.includes(_id);
