@@ -4,6 +4,7 @@ import { Link} from 'react-router-dom'
 import UserTemplate from './UserTemplate.jsx'
 import useGetConversation from "../Hooks/useGetConversation.js"
 import {useSelector} from 'react-redux'
+import backImage from "./Images/left.png"
 
 
 function Message() {
@@ -15,15 +16,20 @@ function Message() {
   
   
   return (
-    <div className='w-full md:w-[16rem] lg:w-[18rem] xl:w-[20rem] h-screen'>
+    <div className='w-full md:w-[16rem] lg:w-[18rem] xl:w-[20rem] h-screen bg-[#0f171f]'>
     
      {/* for the User That we can chat for mobile*/}
-  <div className="h-screen w-full border-2 border-green-800 sticky top-0">
+  <div className="h-screen w-full sticky top-0">
     {/* search container */}
-    <div className='p-3'>
+    <div className='py-3 pr-3 flex'>
+    <Link to= {"/"}>
+    <button className='w-10 invert'>
+          <img src={backImage} alt="" />
+        </button>
+    </Link>
     <Input
     type = "search"
-    placeholder= "Serch Users"
+    placeholder= "Search Users"
     />
     </div>
     {/* userData container */}

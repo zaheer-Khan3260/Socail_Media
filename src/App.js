@@ -36,13 +36,13 @@ function App() {
   });
 
    return !loading ? (
-   <div className='min-h-screen flex flex-wrap content-between bg-gray-400'>
-      <div className='w-full block'>
+   <div className='min-h-screen'>
+      <div className='min-h-screen md:flex md:flex-col '>
         <Header />
-        <main>
+        <main className='md:flex-grow md:overflow-auto'>
          <Outlet />
         </main>
-        {/* <Footer /> */}
+        <Footer />
       </div>
     </div>
   ) : <div className='flex justify-center align-center text-blue-600 text-lg'>

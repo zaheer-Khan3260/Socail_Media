@@ -56,13 +56,7 @@ function Header() {
     <div className={`border-black border-2 h-10 w-full bg-black text-white relative flex md:justify-center md:hidden md:static ${activeNav ? `blur` : `blur-none`}`}>
         {/* left side navbar */}
       <div className='leftSideNav flex justify-between w-1/2 md:w-full md:justify-center' >
-            <div className='w-6 ml-1 mt-1 md:hidden'
-             onClick={() => setActiveNav(true)}
-            >
-             <img
-              src={menuImage} alt="" className='pt-1' />
-             </div>
-
+            
           <div className='mt-1 md:pl-48'>
           <Link to='/'>
               Logo
@@ -71,13 +65,15 @@ function Header() {
       </div>
           {/* right side navbar */}
 
-       <div className='w-1/2 flex justify-end md:hidden '>
-              <div className='w-7 mt-1'>
+       <div className='w-1/2 flex justify-end md:hidden'>
+              <div className='w-7 mt-1 invert'>
                 <img src={notificationImage} alt="" />
               </div>
+              <Link to='/messages'>
               <div className='w-7 mt-1 ml-1 mr-1'>
                 <img src={messageImage} alt="" />
               </div>
+              </Link>
        </div>
           </div>
              {/* right side navbar */}
@@ -85,7 +81,7 @@ function Header() {
 
       {/* slide navbar start */}
       <div className={`navbarcont bg-black text-white p-1 h-screen md:w-44 lg:w-[334px] border-2
-      absolute md:fixed top-0 left-0 ${activeNav ? `block` : `hidden`} md:block`}>
+      absolute md:fixed top-0 left-0 hidden md:block`}>
         <div className='w-full flex justify-between h-14 md:hidden'>
           <div className='mt-3 ml-8'>       
             Logo
@@ -128,8 +124,11 @@ function Header() {
              </div>
         </div>  
       </div> 
+
       {/* slide navbar end */}
+
   </Container>
+
    </>
   )
 }

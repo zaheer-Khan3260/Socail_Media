@@ -64,7 +64,7 @@ const createFollow = async() => {
 
   return (
 
-    <div className='p-[2px] w-full h-auto md:flex md:justify-end min-[950px]:block'>
+    <div className='p-[2px] w-full h-auto md:flex md:justify-end min-[950px]:block text-white'>
 <div className=' w-full  h-full mx-auto md:mx-0 
 md:w-[425px] md:mt-2 md:mr-8 min-[950px]:w-[550px] min-[950px]:ml-[20rem] min-[950px]:mr-0 min-[950px]:mt-8
 xl:w-full xl:flex xl:justify-center xl:ml-0
@@ -82,11 +82,9 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
                 <div 
                 className='min-[372px]:w-20 min-[320px]:w-16 mt-2 min-[950px]:w-24
                  h-[95px] rounded-full mx-auto border border-black overflow-hidden'>
-                     {
-                    profile.avatar ? <img src={profile.avatar} alt="" className=' object-cover w-full h-full'/>
-                    :
-                    <img src={userImage} alt="" className=' object-cover'/>
-                  }
+                     
+                    <img src={profile.avatar? profile.avatar : userImage} alt="" className=' object-cover w-full'/>
+                  
                 </div>
            </div>
                  {/* followers cont */}

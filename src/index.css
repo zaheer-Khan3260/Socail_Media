@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: #0D1117;
+}
+
 .navbarcont{
     animation: slideright 0.5s forwards;
 }

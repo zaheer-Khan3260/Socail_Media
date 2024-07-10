@@ -5,6 +5,7 @@ import { Button, Input } from "./index.js";
 import { useDispatch } from "react-redux";
 import serialize from 'serialize-javascript';
 import { useForm } from "react-hook-form";
+import plusImage from "./Images/add.png"
 import api from "../api.js";
 
 const Signup = () => {
@@ -43,7 +44,7 @@ const Signup = () => {
 
   return (
     <div className="flex items-center justify-center">
-      <div className={`mx-auto w-full max-w-lg  rounded-xl p-10`}>
+      <div className={`mx-auto w-full max-w-lg  rounded-xl p-10 bg-white shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)]`}>
         <div className="mb-2 flex justify-center">
           <span className="inline-block w-full max-w-[100px]">Logo</span>
         </div>
@@ -62,9 +63,11 @@ const Signup = () => {
 
         <form onSubmit={handleSubmit(create)} encType="multipart/form-data">
           <div className="space-y-5">
+            <div className=" flex justify-between">
             <Input
-              label="Full Name: "
-              placeholder="Enter your full name"
+              label="Full Name "
+              placeholder="Name"
+              ClassName="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-48"
               {...register("name", {
                 required: true,
               })}
@@ -73,15 +76,18 @@ const Signup = () => {
             <Input
               label=" Username"
               placeholder="Username"
+              ClassName="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-44"
               {...register("username", {
                 required: true,
               })}
             />
+            </div>
 
             <Input
-              label="Email: "
-              placeholder="Enter your email"
+              label="Email "
+              placeholder="Email"
               type="email"
+              ClassName="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-[75%]"
               {...register("email", {
                 required: true,
                 validate: {
@@ -93,20 +99,38 @@ const Signup = () => {
             />
 
             <Input
-              label="Password: "
+              label="Password "
               type="password"
-              placeholder="Enter your password"
+              placeholder="Password"
+              ClassName="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-[75%]"
               {...register("password", {
                 required: true,
               })}
             />
+            <div className="relative w-80 h-44">
+              <div className="top-0 left-0">
             <Input
-              label="Avatar: "
               type="file"
+              ClassName="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-80 h-36 py-8 absolute z-50 opacity-0"
               {...register("avatar", {
                 required: true,
               })}
             />
+            </div>
+            <div 
+              className="w-80 h-36 border-2 rounded-3xl border-dashed
+               border-gray-400 py-5 flex flex-col justify-center items-center absolute top-7 z-0"
+              
+              > 
+              <div className="w-12 opacity-45">
+                <img src={plusImage} alt="" />
+              </div>
+              <div className=" font-semibold opacity-75">Add Avatar</div>
+              <div className="text-[12px]">
+                or <span className="text-blue-700">drag file</span> from your system
+              </div>
+              </div>
+            </div>
 
             <div className=" relative xl:w-[26rem]">
               <input
@@ -115,6 +139,7 @@ const Signup = () => {
                 id=""
                 className=" absolute top-[0.38rem] left-1"
               />
+              
               <h2 className=" inline-block ml-6 font-semibold">
                 Creating an account means you're okay with our{" "}
                 <a href="#" className="text-blue-600">

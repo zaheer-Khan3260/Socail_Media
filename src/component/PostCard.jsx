@@ -125,10 +125,10 @@ function PostCard({
   }, [isVideo, isMounted]);
 
   return (
-    <div className="mb-8 w-full h-full bg-white rounded-lg shadow-lg md:w-[468px] pb-4">
+    <div className="mb-8 w-full h-full bg-[#0D1117] text-white rounded-lg shadow-lg md:w-[468px] pb-4">
       <div className="flex flex-col p-3">
         {/* Header */}
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between mb-3 text-white">
           <div className="flex">
           <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center transition-transform duration-300 hover:scale-105">
             {
@@ -143,12 +143,12 @@ function PostCard({
           </div>
           <div className="ml-3">
           <Link to={`/profile/${owner}`}>
-            <p className="text-lg font-bold text-gray-900">{userData ? userData.username : null}</p>
+            <p className="text-lg font-bold">{userData ? userData.username : null}</p>
             </Link>
             {/* <p className="text-sm text-gray-500">8:00PM, 05-07-2024</p> */}
           </div>
           </div>
-          <div className=" relative cursor-pointer" >
+          <div className=" relative cursor-pointer invert" >
           <div onClick={toggleMenu}>
           <img src={menuImage} alt="" className=" h-8" />
           </div>
@@ -164,7 +164,7 @@ function PostCard({
         </div>
 
         {/* Caption */}
-        <p className="text-base text-gray-900 mb-3">
+        <p className="text-base mb-3">
         {caption}
         </p>
 
@@ -210,15 +210,15 @@ function PostCard({
           onClick={handleLike}
           >
           {isLiked ? "❤️" : "🤍"}
-            <p className="text-base text-gray-900">{currentLikeCount}</p>
+            <p className="text-base">{currentLikeCount}</p>
           </div>
           <div className="flex items-center space-x-1">
             <img
               src={commentImage}
               alt="Comment"
-              className="w-6 h-6 transition-transform duration-300 hover:scale-105"
+              className="w-6 h-6 transition-transform duration-300 hover:scale-105 invert"
             />
-            <p className="text-base text-gray-900">0</p>
+            <p className="text-base">0</p>
           </div>
         </div>
       </div>

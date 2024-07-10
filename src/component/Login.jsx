@@ -33,7 +33,7 @@ function Login() {
     <div
     className='flex items-center justify-center w-full h-screen'
     >
-      <div className={`mx-auto w-full max-w-lg bg-grey-100 rounded-xl p-10`}>
+      <div className={`mx-auto w-full max-w-lg bg-white rounded-xl p-10 shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)]`}>
         <div className='mb-2 flex justify-center'>
           <span className='inline-block w-full max-w-[100px]'> 
             Logo
@@ -58,6 +58,7 @@ function Login() {
                 label = "Email: "
                 placeholder = "Enter your email"
                 type="email"
+                ClassName="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
                 {...register("email", {
                     required: true
                 })}
@@ -66,6 +67,8 @@ function Login() {
                 label = "Password: "
                 placeholder = "Enter Password"
                 type = "password"
+                ClassName="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
+
                 {...register("password", {
                     required: true,
                 })

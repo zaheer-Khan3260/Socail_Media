@@ -26,7 +26,7 @@ function UserTemplate( {
   }
 
   return (
-    <div className={`w-full h-12 rounded-2xl border-2 border-gray-600 flex ${className} mb-3 `} onClick={() => dispatch(conversationSend(reciverData))}>
+    <div className={`w-full h-12 text-white flex ${className} mb-3 `} onClick={() => dispatch(conversationSend(reciverData))}>
       <div className=' relative w-11 h-11 bg-white border-2 border-gray-500 rounded-full ml-2 text-center object-fill'>
         <div 
         className={`absolute w-3 h-3 rounded-full bg-green-500 border-2 border-green-500 ${isOnline ? 'block' : 'hidden'}`}
