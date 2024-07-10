@@ -20,7 +20,7 @@ function Home() {
 if(userStatus) {
 
     return (
-        <div className='w-full border-2 border-green-800 py-8 bg-[#0f171f]'>
+        <div className='w-full py-8 bg-[#0f171f]'>
         {/* <Container> */}
             <div className='h-auto w-full mb-3 md:w-[530px] md:ml-[11.5rem] lg:w-[630px] lg:ml-[18rem] xl:ml-[28rem] xl:w-[630px]'>
                 {

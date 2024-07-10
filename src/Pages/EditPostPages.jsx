@@ -9,7 +9,7 @@ function EditPostPages() {
     const navigate = useNavigate()
 
   return post ? (
-    <div className='py-8'>
+    <div>
        <Container>
         <EditPost post/>
        </Container>

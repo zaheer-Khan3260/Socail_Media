@@ -3,7 +3,7 @@ import { Container, EditPost } from '../component'
 
 function AddPost() {
   return (
-    <div className='py-8'>
+    <div className=''>
       <Container>
         <EditPost />
       </Container>

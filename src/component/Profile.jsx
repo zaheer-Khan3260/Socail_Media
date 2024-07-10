@@ -11,13 +11,15 @@ function Profile() {
   const [activeSavedPost, setActiveSavedPost] = useState(false);
   const [postCount, setPostCount] = useState(0)
   const [posts, setPosts] = useState([]);
-  const [isFollowed, setIsFollowed] = useState(posts.isFollowed)
   const [profile, setProfile] = useState({})
   const [savedPost, setSavedPost] = useState([]);
+  const [followerCount, setFollowerCount] = useState()
   const { UserId } = useParams()
   const UserData = useSelector((state) => state.auth.userData);
   const navigate = useNavigate();
- 
+  const [isFollowedState, setIsFollowedState] = useState()
+
+console.log("isfollowedState", isFollowedState)
 const isAuthor = UserId && UserData && UserId === UserData._id ? true : false;
 
 const createFollow = async() => {
@@ -25,7 +27,14 @@ const createFollow = async() => {
   await api.post("/api/v1/subscription/isSubscribed", {
     channelId: UserId
   } ).then((res) => {
-    if(res.status === 200) setIsFollowed(!isFollowed);
+    if(res.status === 200) {
+      setIsFollowedState(!isFollowedState)
+      if(isFollowedState){
+        setFollowerCount(followerCount - 1)
+      }else{
+        setFollowerCount(followerCount + 1)
+      }
+    }
   }).catch((err) => {
     console.log(err ? err.message : "An error occur while make Subscription")
   })
@@ -38,8 +47,16 @@ const createFollow = async() => {
         userId: UserId
       })
       const userData = response.data
-      if(userData) setProfile(userData.data)
+      if(userData) {
+        setProfile(userData.data);
+        setIsFollowedState(userData.data.isFollowed);
+        setFollowerCount(userData.data.followerCount);
+      }
+        
+  
+        console.log("userPrfile data: ", userData.data);
      }
+
      const fetchPosts = async() => {
       const response = await api.post(`/api/v1/posts/getUserPost`, {
             userId: UserId
@@ -64,7 +81,7 @@ const createFollow = async() => {
 
   return (
 
-    <div className='p-[2px] w-full h-auto md:flex md:justify-end min-[950px]:block text-white'>
+    <div className='p-[2px] w-full h-screen md:flex md:justify-end min-[950px]:block text-white'>
 <div className=' w-full  h-full mx-auto md:mx-0 
 md:w-[425px] md:mt-2 md:mr-8 min-[950px]:w-[550px] min-[950px]:ml-[20rem] min-[950px]:mr-0 min-[950px]:mt-8
 xl:w-full xl:flex xl:justify-center xl:ml-0
@@ -76,14 +93,11 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
         <div className='flex w-full h-auto '>
             {/* image cont */}
            <div
-            className=' min-[372px]:w-24 min-[372px]:ml-3  min-[320px]:ml-1 h-full min-[320px]:w-16 
-           min-[950px]:w-44 min-[950px]:h-48 min-[950px]:ml-0 min-[950px]:flex 
-            min-[950px]:items-center '>
+            className='ml-2'>
                 <div 
-                className='min-[372px]:w-20 min-[320px]:w-16 mt-2 min-[950px]:w-24
-                 h-[95px] rounded-full mx-auto border border-black overflow-hidden'>
+                className='w-24 h-24 bg-blue-500 rounded-full flex items-center justify-center'>
                      
-                    <img src={profile.avatar? profile.avatar : userImage} alt="" className=' object-cover w-full'/>
+                    <img src={profile.avatar? profile.avatar : userImage} alt="" className='w-full h-full object-fill rounded-full'/>
                   
                 </div>
            </div>
@@ -99,7 +113,7 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
                     </div>
                     <div className='mr-4 ml-4'>
                     <div>Followers</div>
-                        <div>{profile.followerCount}</div>
+                        <div>{followerCount}</div>
                     </div>
                     <div>
                          <div>Following</div>
@@ -129,7 +143,7 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
               </div> : <div className=' border-2 border-black w-24 text-center h-7 rounded-xl mr-2'
               onClick={createFollow}
               >
-                  {isFollowed ? "Followed" : "Follow"}
+                  {isFollowedState ? "Followed" : "Follow"}
               </div>
             }
               
@@ -152,14 +166,14 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
            </div>
            <div className=' w-full h-[2.8rem] flex justify-end items-center min-[950px]:hidden'>
            {
-              isAuthor ?   <div className=' border-2 border-black w-24 text-center h-7 rounded-xl mr-2'
+              isAuthor ?   <div className=' bg-blue-700 w-16 text-center h-8 rounded-xl mr-5 py-1 font-semibold'
               onClick={() => navigate(`/profile/${UserId}/editprofile`)}
               >
-                  Edit Profile
+                  Edit
               </div> : <div className=' border-2 border-black w-24 text-center h-7 rounded-xl mr-2'
               onClick={createFollow}
               >
-                  {isFollowed ? "Followed" : "Follow"}
+                  {isFollowedState ? "Followed" : "Follow"}
               </div>
             }
            </div>
@@ -167,12 +181,12 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
                 
       {/* post detail cont */}
       <div className=' w-full h-6 flex text-center text-[16px] mt-1 min-[950px]:hidden'>
-            <div className={`w-1/2 border-r-2 border-b-2 border-black hover:bg-gray-200 ${activePost ? `bg-gray-200` : null} cursor-pointer`}
+            <div className={`w-1/2 font-semibold border-r-2 border-b-2 border-black ${activePost ? `bg-blue-600` : "bg-white text-black"} cursor-pointer`}
              onClick={() => {
                 setActivePost(true);
                 setActiveSavedPost(false);
             }}>Posts</div>
-            <div className={`w-1/2 hover:bg-gray-200 border-b-2 border-black ${savedPost ? `bg-gray-200` : null} cursor-pointer`}
+            <div className={`w-1/2 font-semibold  border-b-2 border-black ${savedPost ? `bg-blue-600` : "bg-white"} cursor-pointer`}
             onClick={() => {
             setActiveSavedPost(true);
             setActivePost(false);
@@ -182,12 +196,11 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
       {/* post cont */}
       { activePost ?
       <div className='h-auto w-full p-[2px] min-[950px]:hidden'>
-        <div className='grid grid-cols-3 gap-[0.01rem]'>
+        <div className='flex justify-between gap-3'>
         {
        posts ? ( posts.map((post) => (
           <div key={post._id}
-          className='min-[375px]:h-36 min-[375px]:w-[5.8rem] min-[425px]:w-[6.6rem]
-            min-[320px]:h-28 min-[320px]:w-[4.9rem] min-[950px]:w-[8.2rem] min-[950px]:h-48 bg-black mb-1 flex items-center justify-center'>
+          className='w-[50%] h-[15rem] bg-black'>
                 <img src={post.postFile} alt="" 
                 className='h-full object-contain'
                 />
@@ -202,22 +215,17 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
       {
         activeSavedPost ?
         <div className='h-auto w-full p-[2px] min-[950px]:hidden'>
-        <div className='flex justify-between'>
+        <div className='flex justify-between gap-1'>
           <div 
-          className='min-[375px]:h-36 min-[375px]:w-[5.8rem] min-[425px]:w-[6.6rem]
-            min-[320px]:h-28 min-[320px]:w-[4.9rem] min-[950px]:w-[8.2rem] min-[950px]:h-48 bg-black mb-1 flex items-center justify-center'>
-                <img src={conent} alt=""/>
+          className='w-full h-full'>
+                <img src={conent} alt="" className=''/>
           </div>
-          <div
-           className='min-[375px]:h-36 min-[375px]:w-[5.8rem] min-[425px]:w-[6.6rem] 
-            min-[320px]:h-28 min-[320px]:w-[4.9rem] min-[950px]:w-[8.2rem] min-[950px]:h-48 bg-black  mb-1'>
-
+          <div 
+          className='w-full h-full'>
+                <img src={conent} alt="" className=''/>
           </div>
-          <div
-           className='min-[375px]:h-36 min-[375px]:w-[5.8rem] min-[425px]:w-[6.6rem]
-             min-[320px]:h-28 min-[320px]:w-[4.9rem] bg-black mb-1'>
-
-          </div>
+         
+         
           </div>
         </div>
         : null

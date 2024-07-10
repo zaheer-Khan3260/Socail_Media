@@ -43,8 +43,8 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <div className={`mx-auto w-full max-w-lg  rounded-xl p-10 bg-white shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)]`}>
+    <div className=" flex items-center justify-center">
+      <div className={`md:mx-auto w-[23rem] md:w-full max-w-lg  rounded-xl p-10 bg-white shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)]`}>
         <div className="mb-2 flex justify-center">
           <span className="inline-block w-full max-w-[100px]">Logo</span>
         </div>
@@ -67,7 +67,7 @@ const Signup = () => {
             <Input
               label="Full Name "
               placeholder="Name"
-              ClassName="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-48"
+              ClassName="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-[90%]"
               {...register("name", {
                 required: true,
               })}
@@ -76,7 +76,7 @@ const Signup = () => {
             <Input
               label=" Username"
               placeholder="Username"
-              ClassName="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-44"
+              ClassName="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-[90%]"
               {...register("username", {
                 required: true,
               })}
@@ -107,18 +107,18 @@ const Signup = () => {
                 required: true,
               })}
             />
-            <div className="relative w-80 h-44">
+            <div className="relative w-full h-44">
               <div className="top-0 left-0">
             <Input
               type="file"
-              ClassName="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-80 h-36 py-8 absolute z-50 opacity-0"
+              ClassName="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-full md:w-80 h-36 py-8 absolute z-50 opacity-0"
               {...register("avatar", {
                 required: true,
               })}
             />
             </div>
             <div 
-              className="w-80 h-36 border-2 rounded-3xl border-dashed
+              className="w-full md:w-80 h-36 border-2 rounded-3xl border-dashed
                border-gray-400 py-5 flex flex-col justify-center items-center absolute top-7 z-0"
               
               > 

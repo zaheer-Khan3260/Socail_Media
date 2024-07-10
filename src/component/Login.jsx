@@ -33,7 +33,7 @@ function Login() {
     <div
     className='flex items-center justify-center w-full h-screen'
     >
-      <div className={`mx-auto w-full max-w-lg bg-white rounded-xl p-10 shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)]`}>
+      <div className={`mx-auto md:w-full max-w-lg bg-white rounded-xl p-10 shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)]`}>
         <div className='mb-2 flex justify-center'>
           <span className='inline-block w-full max-w-[100px]'> 
             Logo
@@ -55,8 +55,8 @@ function Login() {
         <form onSubmit={handleSubmit(login)} className='mt-8'>
             <div className='space-y-5'>
                 <Input 
-                label = "Email: "
-                placeholder = "Enter your email"
+                label = "Email "
+                placeholder = "Email"
                 type="email"
                 ClassName="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
                 {...register("email", {
@@ -64,8 +64,8 @@ function Login() {
                 })}
                 />
                 <Input
-                label = "Password: "
-                placeholder = "Enter Password"
+                label = "Password "
+                placeholder = "Password"
                 type = "password"
                 ClassName="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
 
