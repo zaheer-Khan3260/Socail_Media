@@ -2,6 +2,7 @@ import React, { useEffect, useState,useRef } from "react";
 import userImage from "./Images/user.png";
 import commentImage from "./Images/comment.png";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import api from "../api.js";
 import { useSelector } from "react-redux";
 import menuImage from "./Images/more.png"
@@ -23,9 +24,10 @@ function PostCard({
   const [isVideo, setIsVideo] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [isMuted, setIsMuted] = useState(true)
-  const [currentLikeStatus, setCurrentLikeStatus] = useState(isLiked);
-  const [currentLikeCount, setCurrentLikeCount] = useState(likeCount);
   const videoRef = useRef(null);
+  const dispatch = useDispatch();
+  const [newIsLiked, setNewIsLiked] = useState(isLiked);
+  const [newLikeCount, setNewLikeCount] = useState(likeCount)
   const [menuIsOpen, setMenuIsOpen] = useState(false)
   const containerRef = useRef(null);
   const currentUserData = useSelector((state) => state.auth.userData)
@@ -36,6 +38,11 @@ function PostCard({
 
   const toggleMute = () => {
     setIsMuted(!isMuted)
+  }
+
+  const toggleLikeCount = () => {
+    setNewIsLiked(!newIsLiked);
+    setNewLikeCount(prevCount => prevCount + (newIsLiked ? -1 : 1));
   }
 
   const deletePost = async() => {
@@ -81,13 +88,6 @@ function PostCard({
       const response = await api.post("/api/v1/like/toggle/v/postLike", {
         postId: _id,
       });
-
-      if (response.data.data.success) {
-        setCurrentLikeStatus(!currentLikeStatus);
-        setCurrentLikeCount((prevCount) =>
-          currentLikeStatus ? prevCount - 1 : prevCount + 1
-        );
-      }
     } catch (err) {
       console.error("An error occurred while liking the post:", err.message);
     }
@@ -193,11 +193,11 @@ function PostCard({
           </div>
       ) : (
         <Link to={`/post/${_id}`}>
-        <div className="w-full bg-blue-500 rounded-lg overflow-hidden mb-1">
+        <div className="w-full max-h-[30rem] bg-blue-500 rounded-lg overflow-hidden mb-1 object-fill">
           <img
             src={postFile}
             alt="Main content"
-            className="w-full h-full object-cover"
+            className="w-full"
           />
         </div>
         </Link>
@@ -206,11 +206,14 @@ function PostCard({
         {/* Like and comment container */}
         <div className="flex items-center mt-3 space-x-4 mb-2">
           <div 
-          className={`flex items-center space-x-1 ${isLiked ? "liked" : ""} action-button`}
-          onClick={handleLike}
+          className={`flex items-center space-x-1 ${newIsLiked ? "liked" : ""} action-button`}
+          onClick={() => {
+          handleLike()
+          toggleLikeCount();
+          }}
           >
-          {isLiked ? "❤️" : "🤍"}
-            <p className="text-base">{currentLikeCount}</p>
+          {newIsLiked ? "❤️" : "🤍"}
+            <p className="text-base">{newLikeCount}</p>
           </div>
           <div className="flex items-center space-x-1">
             <img

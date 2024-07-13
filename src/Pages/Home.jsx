@@ -5,6 +5,7 @@ import api from '../api.js';
 function Home() {
     const [posts, setPosts] = useState([])
  const userStatus = useSelector((state) => state.auth.status);
+
     useEffect(() => {
         const fetchData = async () => {
         const response = await api.get("/api/v1/posts/")
@@ -16,8 +17,7 @@ function Home() {
    if(userStatus) {fetchData()}
 }, [userStatus])
 
-
-if(userStatus) {
+  
 
     return (
         <div className='w-full py-8 bg-[#0f171f]'>
@@ -27,7 +27,8 @@ if(userStatus) {
                 posts ? (
                 posts.map((post) => (
                     <div key={post._id} className=' w-full p-2'>
-                        <PostCard {...post} />
+                        <PostCard {...post}
+                        />
                     </div>
                 ))
                 ):
@@ -38,19 +39,6 @@ if(userStatus) {
     </div>
       )
 }
-return (
-    <div className="w-full py-8 mt-4 text-center">
-    <Container>
-        <div className="flex flex-wrap">
-            <div className="p-2 w-full">
-                <h1 className="text-2xl font-bold hover:text-gray-500">
-                    <Login/>
-                </h1>
-            </div>
-        </div>
-    </Container>
-</div>
-)
-}
+
 
 export default Home

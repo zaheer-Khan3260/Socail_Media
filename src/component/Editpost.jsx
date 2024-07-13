@@ -21,58 +21,34 @@ export default function PostForm({ post }) {
     const navigate = useNavigate();
 
     const submit = async (data) => {
-        if (post) {
-            setLoading(true);
-            if(data.image[0]) setFile(data.image[0])
-            if (file) {
-                await api.delete(
-                    "/api/v1/posts/deletevideo",{
-                    params: {
-                        postId: post?._id
-                    }
-                })
-                const formData = new FormData;
-                formData.append("postFile", data.postFile[0])
-                formData.append("caption", data.caption)
-                formData.append("isPublished", data.isPublished)
-                try {
-                    const response = await api.post(
-                        "http://localhost:5000/api/v1/posts/upload-video",
-                        formData,
-                    )
-                    const postData = response?.data
-                    if(postData) {
-                        setLoading(false)
-                        navigate(`/post/${postData?.data?._id}`)
-                    }
-                } catch (error) {
-                    console.log(error);
-                }
-
-            }
-        } else {
-            setLoading(true)
-            if(data.postFile[0]) setFile(data.postFile[0])
-            if (file) {
-                const formData = new FormData;
-                formData.append("postFile", file)
-                formData.append("caption", data.caption)
-                formData.append("isPublished", data.isPublished)
-                try {
-                    const response = await api.post(
-                        "/api/v1/posts/",
-                        formData
-                    )
-                    const postData = response?.data
-                    if(postData) {
-                        setLoading(false)
-                        navigate(`/post/${postData.data._id}`)
-                    }
-                } catch (error) {
-                    console.log(error);
+        setLoading(true);
+        try {
+            if (post) {
+                if (data.image[0]) {
+                    await api.delete("/api/v1/posts/deletevideo", {
+                        params: { postId: post?._id }
+                    });
                 }
             }
-           
+            
+            const formData = new FormData();
+            formData.append("postFile", data.postFile[0]);
+            formData.append("caption", data.caption);
+            formData.append("isPublished", data.isPublished);
+            
+            const response = await api.post(
+                post ? "http://localhost:5000/api/v1/posts/upload-video" : "/api/v1/posts/",
+                formData
+            );
+            
+            const postData = response?.data;
+            if (postData) {
+                navigate(`/post/${postData.data._id}`);
+            }
+        } catch (error) {
+            console.error("Error submitting post:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
