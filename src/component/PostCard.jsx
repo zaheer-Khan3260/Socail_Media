@@ -9,6 +9,7 @@ import menuImage from "./Images/more.png"
 import muteImage from "./Images/mute.png"
 import volumeImage from "./Images/volume.png"
 import Input from "./Input.jsx";
+import getFileType from "../utils/getFileType.js";
 
 function PostCard({
   _id,
@@ -66,19 +67,9 @@ function PostCard({
         setUserData(userData.data);
       }
     };
-    function getFileType(postFile) {
-      const extension = postFile.split('.').pop().toLowerCase();
-  
-  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
-  const videoExtensions = ['mp4', 'webm', 'ogg', 'mov'];
-
-  if (imageExtensions.includes(extension)) {
-    setIsVideo(false);
-  } else if (videoExtensions.includes(extension)) {
-    setIsVideo(true);
-  }
-    }
-    getFileType(postFile);
+    
+    const fileType = getFileType(postFile)
+    if(fileType === "video") setIsVideo(true);
     fetchData();
     setIsMounted(true);
   }, [owner]);
@@ -204,7 +195,7 @@ function PostCard({
       )}
 
         {/* Like and comment container */}
-        <div className="flex items-center mt-3 space-x-4 mb-2">
+        <div className="flex items-center mt-3 space-x-4 mb-2 cursor-pointer">
           <div 
           className={`flex items-center space-x-1 ${newIsLiked ? "liked" : ""} action-button`}
           onClick={() => {

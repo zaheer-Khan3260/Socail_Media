@@ -12,8 +12,6 @@ import api from './api.js';
 function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
-  const userStatus = useSelector((state) => state.auth.status);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,13 +31,15 @@ function App() {
       }
     };
   fetchData();
-  });
+  }, []);
 
    return !loading ? (
    <div className='min-h-screen'>
-      <div className='min-h-screen md:flex md:flex-col '>
+      <div className='md:grid grid-cols-4 '>
+        <div className='min-h-screen bg-[#0f171f]'>
         <Header />
-        <main className='md:flex-grow md:overflow-auto'>
+        </div>
+        <main className=' md:overflow-auto col-span-3 bg-[#0f171f] '>
          <Outlet />
         </main>
         <Footer />

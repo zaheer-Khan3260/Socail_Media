@@ -23,7 +23,6 @@ console.log("isfollowedState", isFollowedState)
 const isAuthor = UserId && UserData && UserId === UserData._id ? true : false;
 
 const createFollow = async() => {
-  console.log("USER ID IN CREATE FOLLOW", UserId)
   await api.post("/api/v1/subscription/isSubscribed", {
     channelId: UserId
   } ).then((res) => {
@@ -81,14 +80,12 @@ const createFollow = async() => {
 
   return (
 
-    <div className='p-[2px] w-full h-screen md:flex md:justify-end min-[950px]:block text-white'>
-<div className=' w-full  h-full mx-auto md:mx-0 
-md:w-[425px] md:mt-2 md:mr-8 min-[950px]:w-[550px] min-[950px]:ml-[20rem] min-[950px]:mr-0 min-[950px]:mt-8
-xl:w-full xl:flex xl:justify-center xl:ml-0
+    <div className='p-3 w-full h-screen md:flex md:justify-end min-[950px]:block text-white overflow-auto bg-[#0f171f] mt-10'>
+<div className=' w-full h-full mx-auto md:w-[500px]
  '>
 
     {/* profile image and follower cont */}
-      <div className=' h-auto mx-auto w-full xl:w-[550px] '>
+      <div className=' h-auto mx-auto w-full xl:w-[500px] '>
         {/* profile image nad followers main cont */}
         <div className='flex w-full h-auto '>
             {/* image cont */}
@@ -121,38 +118,12 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
                         </div>
                   </div>
            </div>
-           <div className='text-[14px] hidden min-[950px]:text-[18px] w-36 pl-1 mt-2 h-16 min-[372px]:ml-3
-             min-[320px]:ml-1 min-[950px]:block min-[950px]:ml-0 min-[950px]:w-48 ' >
-                 <div>
-              <p className=' text-[20px] mb-1 mt-5 '>{profile ? `${profile.username}` : null}</p>
-            </div>
-                <div>
-                   {
-                    <p>
-                      {profile ? `${profile.bio} ` : null}
-                    </p>
-                   }
-                </div>
-           </div>
-           <div className=' w-full h-[2.8rem] min-[950px]:flex justify-end items-center hidden'>
-            {
-              isAuthor ?   <div className=' border-2 border-black w-24 text-center h-7 rounded-xl mr-2'
-              onClick={() => navigate(`/profile/${UserId}/editprofile`)}
-              >
-                  Edit Profile
-              </div> : <div className=' border-2 border-black w-24 text-center h-7 rounded-xl mr-2'
-              onClick={createFollow}
-              >
-                  {isFollowedState ? "Followed" : "Follow"}
-              </div>
-            }
-              
-           </div>
+           
        </div>
            </div>
 
              {/* bio cont */}
-           <div className='text-[14px] min-[950px]:text-[18px] w-36 pl-1 mt-1 h-16 min-[372px]:ml-3  min-[320px]:ml-1 min-[950px]:hidden' >
+           <div className='text-[14px] min-[950px]:text-[13px] w-36 md:w-48 pl-2 mt-1 h-16' >
             <div>
               <p className=' text-[15px] '>{profile ? `${profile.username}` : null}</p>
             </div>
@@ -164,13 +135,13 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
                    }
                 </div>
            </div>
-           <div className=' w-full h-[2.8rem] flex justify-end items-center min-[950px]:hidden'>
+           <div className=' w-full h-[2.8rem] flex justify-end items-center'>
            {
               isAuthor ?   <div className=' bg-blue-700 w-16 text-center h-8 rounded-xl mr-5 py-1 font-semibold'
               onClick={() => navigate(`/profile/${UserId}/editprofile`)}
               >
                   Edit
-              </div> : <div className=' border-2 border-black w-24 text-center h-7 rounded-xl mr-2'
+              </div> : <div className={`${isFollowedState ? "bg-blue-700" : "bg-red-700" } w-24 text-center h-8 rounded-xl mr-5 py-1`}
               onClick={createFollow}
               >
                   {isFollowedState ? "Followed" : "Follow"}
@@ -180,7 +151,7 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
            </div>
                 
       {/* post detail cont */}
-      <div className=' w-full h-6 flex text-center text-[16px] mt-1 min-[950px]:hidden'>
+      <div className=' w-full h-6 flex text-center text-[16px] mt-1'>
             <div className={`w-1/2 font-semibold border-r-2 border-b-2 border-black ${activePost ? `bg-blue-600` : "bg-white text-black"} cursor-pointer`}
              onClick={() => {
                 setActivePost(true);
@@ -195,12 +166,12 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
     
       {/* post cont */}
       { activePost ?
-      <div className='h-auto w-full p-[2px] min-[950px]:hidden'>
-        <div className='flex justify-between gap-3'>
+      <div className='h-auto w-full p-[2px]'>
+        <div className='flex flex-wrap justify-between'>
         {
        posts ? ( posts.map((post) => (
           <div key={post._id}
-          className='w-[50%] h-[15rem] bg-black'>
+          className='w-[calc(50%-0.30rem)] h-[15rem] bg-black'>
                 <img src={post.postFile} alt="" 
                 className='h-full object-contain'
                 />
@@ -231,65 +202,6 @@ xl:w-full xl:flex xl:justify-center xl:ml-0
         : null
       }
       </div>
-      <div className='w-full hidden min-[950px]:block '>
-      <div className=' w-full  h-6 flex text-center text-[16px] mt-2 min-[950px]:ml-[25rem] xl:justify-center xl:ml-0'>
-            <div className={`w-40 border-r-2 border-black hover:bg-gray-200 ${activePost ? `bg-gray-200` : null} cursor-pointer`}
-             onClick={() => {
-                setActivePost(true);
-                setActiveSavedPost(false);
-            }}>Posts</div>
-            <div className={`w-40 hover:bg-gray-200 border-black ${savedPost ? `bg-gray-200` : null} cursor-pointer`}
-            onClick={() => {
-            setActiveSavedPost(true);
-            setActivePost(false);
-            }}> Saved</div>
-           </div>
-           { activePost ?
-     <div className='w-full min-[950px]:flex justify-center hidden'>
-     <div className='h-auto min-[320px]:w-[34rem] min-[320px]:ml-[16.5rem]
-      p-[2px] xl:ml-0'>
-        <div className=' grid grid-cols-3 gap-1'>
-     {
-      posts ? ( posts.map((post) => (
-          <div key={post._id}
-          className='ml-1 min-[950px]:w-full min-[950px]:h-48 bg-black mb-1 flex items-center justify-center'>
-                <img src={post.postFile}  className='h-full object-contain' alt=""/>
-          </div> 
-          ))) : 
-          <div className=' text-blue-600 font-bold'>Don't Upload any posts</div>
-          }
-          </div>
-       </div>
-     </div>
-      : null
-      
-      }
-
-{ activeSavedPost ?
-          <div className='w-full min-[950px]:flex justify-center hidden'>
-          <div className='h-auto min-[320px]:w-[34rem] min-[320px]:ml-[16.5rem]
-           p-[2px] xl:ml-0'>
-          <div className='flex justify-between'>
-            <div 
-            className='min-[320px]:w-[11.1rem] min-[320px]:h-44 bg-black mb-1 flex justify-center'>
-                  <img src={savedPostImage} alt=""/>
-            </div>
-            <div
-             className='min-[320px]:w-[11.1rem] min-[320px]:h-44 bg-black 
-               mb-1'>
-     
-            </div>
-            <div
-             className='min-[320px]:w-[11.1rem] min-[320px]:h-44 bg-black 
-             mb-1'>
-     
-            </div>
-            </div>
-            </div>
-          </div>
-      : null
-      }
-           </div>
 
 </div>
    

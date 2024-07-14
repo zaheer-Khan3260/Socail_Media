@@ -41,6 +41,27 @@ const router = createBrowserRouter([
             </ProtectedLayer>
         ),
     },
+    {
+        path: "/messages",
+        element: (
+            <ProtectedLayer authentication>
+                {" "}
+                <MessagePagesNew />
+            </ProtectedLayer>
+        ),
+        children:[
+            {
+                path: ":conversationId",
+                element: (
+                    <ProtectedLayer authentication>
+                        {" "}
+                        <Chatdisplay />
+                    </ProtectedLayer>
+                ),
+            },
+        ]
+    },
+
   {
     path: "/",
     element: <App />,
@@ -64,27 +85,6 @@ const router = createBrowserRouter([
                 </ProtectedLayer>
             ),
         },
-
-        {
-            path: "/messages",
-            element: (
-                <ProtectedLayer authentication>
-                    {" "}
-                    <MessagePagesNew />
-                </ProtectedLayer>
-            ),
-            children:[
-                {
-                    path: ":conversationId",
-                    element: (
-                        <ProtectedLayer authentication>
-                            {" "}
-                            <Chatdisplay />
-                        </ProtectedLayer>
-                    ),
-                },
-            ]
-        },
         {
             path: "/edit-post/:slug",
             element: (
@@ -95,7 +95,7 @@ const router = createBrowserRouter([
             ),
         },
         {
-            path: "/post/:slug",
+            path: "/post/:postId",
             element: <Post />,
         },
         {

@@ -4,11 +4,12 @@ import { Button,Select } from "./index.js";
 import { useNavigate } from "react-router-dom";
 import Input from "./Input.jsx"
 import api from "../api.js"
-import LoadingSpinner from "./LoadinSpinner.jsx";
+import LoadingSpinner from "./LoadingSpinner/LoadinSpinner.jsx";
 import plusImage from "./Images/add.png"
 
 export default function PostForm({ post }) {
 
+    console.log("post in edit post", post)
     const [loading, setLoading] = useState(false);
     const { register, handleSubmit } = useForm({
         defaultValues: {
@@ -16,8 +17,8 @@ export default function PostForm({ post }) {
             content: post?.content || "",
             status: post?.status || "active",
         },
-    });
-    const [file, setFile] = useState(null);
+    })
+    const [caption, setCaption] = useState(post?.caption)
     const navigate = useNavigate();
 
     const submit = async (data) => {
@@ -55,7 +56,7 @@ export default function PostForm({ post }) {
 
     return (
 
-            <form onSubmit={handleSubmit(submit)} className="md:flex flex-wrap h-screen text-white w-full relative">
+            <form onSubmit={handleSubmit(submit)} className="md:flex flex-wrap h-screen text-white w-[500px] relative overflow-auto bg-[#0f171f] ">
             <div className="w-full px-2">
             <Input
             type="text"
@@ -78,11 +79,10 @@ export default function PostForm({ post }) {
             </div>
             <div 
               className="w-full md:w-80 h-36 border-2 rounded-3xl border-dashed
-               border-gray-400 py-5 flex flex-col justify-center items-center absolute top-7 z-0"
-              
+               border-gray-400 py-5 flex flex-col justify-center items-center absolute top-7 z-0 mx-auto"
               > 
               <div className="w-12 opacity-45 invert">
-                <img src={plusImage} alt="" />
+             <img src={plusImage} alt="" />
               </div>
               <div className=" font-semibold opacity-75">Add Post</div>
               <div className="text-[12px]">
@@ -109,7 +109,7 @@ export default function PostForm({ post }) {
                     {post ? "Update" : "Submit"}
                 </Button>
             </div>
-            <div className={`absolute top-0 w-full ${loading ? "block" : "hidden"}`}>
+            <div className={`absolute flex h-full backdrop-blur-lg  top-0 w-full ${loading ? "block" : "hidden"}`}>
                 <LoadingSpinner/>
             </div>
         </form>
