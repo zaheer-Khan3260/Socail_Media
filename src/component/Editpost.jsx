@@ -56,7 +56,7 @@ export default function PostForm({ post }) {
 
     return (
 
-            <form onSubmit={handleSubmit(submit)} className="md:flex flex-wrap h-screen text-white w-[500px] relative overflow-auto bg-[#0f171f] ">
+            <form onSubmit={handleSubmit(submit)} className="md:flex flex-wrap h-screen text-white md:w-[500px] relative overflow-auto bg-[#0f171f] ">
             <div className="w-full px-2">
             <Input
             type="text"
