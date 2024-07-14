@@ -36,7 +36,7 @@ function App() {
    return !loading ? (
    <div className='min-h-screen'>
       <div className='md:grid grid-cols-4 '>
-        <div className='min-h-screen bg-[#0f171f]'>
+        <div className=''>
         <Header />
         </div>
         <main className=' md:overflow-auto col-span-3 bg-[#0f171f] '>

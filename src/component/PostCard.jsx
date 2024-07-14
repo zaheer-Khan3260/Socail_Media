@@ -145,7 +145,7 @@ function PostCard({
           </div>
           <div className={`w-24 h-28 rounded-2xl bg-slate-500 z-50 absolute right-0 top-12 text-white text-center opacity-75 ${menuIsOpen? "block" : "hidden"}`}>
             <div 
-            className={` text-red-800 font-bold text-[20px] border-b border-gray-600 cursor-pointer ${currentUserData._id === owner ? "block" : "hidden"}`}
+            className={` text-red-800 font-bold text-[20px] border-b border-gray-600 cursor-pointer ${currentUserData?._id === owner ? "block" : "hidden"}`}
             onClick={deletePost}
             >
               Delete
