@@ -58,7 +58,7 @@ function Home() {
 
     return (
         <div className='w-full py-8 xl:px-10 bg-[#0f171f] xl:grid xl:grid-cols-4'>
-            <div className='h-auto w-full mb-3 ml-12  xl:col-span-2'>
+            <div className='h-auto w-full mb-3 md:ml-12 lg:ml-0  xl:col-span-2'>
                 {  
                 posts ? (
                 posts.map((post) => (
