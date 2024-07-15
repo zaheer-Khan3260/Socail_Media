@@ -9,6 +9,7 @@ import menuImage from "./Images/more.png"
 import muteImage from "./Images/mute.png"
 import volumeImage from "./Images/volume.png"
 import Input from "./Input.jsx";
+import CommentComponent from "./CommentComponent.jsx"
 import getFileType from "../utils/getFileType.js";
 import LoadingSpinner from "./LoadingSpinner/LoadinSpinner.jsx";
 import { BsSend } from "react-icons/bs";
@@ -20,13 +21,15 @@ function PostCard({
   postFile,
   isLiked,
   likeCount,
+  commentCount,
   caption,
 }) {
   const navigate = useNavigate()
   const [userData, setUserData] = useState(null);
   const [isVideo, setIsVideo] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const [comment, setComment] = useState("");
+  const [currentComment, setCurrentComment] = useState("");
+  const [newCommentCount, setNewCommentCount] = useState(commentCount)
   const [isMuted, setIsMuted] = useState(true)
   const [deleteMessage, setDeleteMessage] = useState(false)
   const [showPost, setShowPost] = useState(true)
@@ -39,13 +42,12 @@ function PostCard({
 
   const commentCreation = async() => {
     try {
-      if(comment){
+      if(currentComment){
         await api.post("/api/v1/comments/createComment", {
           postId: _id,
-          content: comment,
+          content: currentComment,
         });
-        setComment("")
-        navigate(`/post/${_id}`)
+        setCurrentComment("")
       }
     } catch (error) {
       console.log("An error occur while creating a comment", error);
@@ -236,14 +238,16 @@ function PostCard({
           {newIsLiked ? "❤️" : "🤍"}
             <p className="text-base">{newLikeCount}</p>
           </div>
+          <Link to={`/post/${_id}`}>
           <div className="flex items-center space-x-1">
             <img
               src={commentImage}
               alt="Comment"
               className="w-6 h-6 transition-transform duration-300 hover:scale-105 invert"
             />
-            <p className="text-base">0</p>
+            <p className="text-base">{newCommentCount}</p>
           </div>
+          </Link>
         </div>
       </div>
       <div className=" w-full h-10 flex items-center">
@@ -257,17 +261,21 @@ function PostCard({
         <div className="ml-1 relative">
           <Input
           placeholder = "Comment.."
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
+          value={currentComment}
+          onChange={(e) => setCurrentComment(e.target.value)}
           />
           <button type='submit'
-          onClick={commentCreation}
+          onClick={() => {
+            commentCreation()
+            setNewCommentCount(newCommentCount + 1);
+          }
+        }
+
           className='absolute top-4 right-0 flex items-center pr-3 invert'>
 					 <BsSend />
 				</button>
         </div>
       </div>
-
       <div className={`absolute flex h-full backdrop-blur-lg  top-0 w-full ${showPost ? "hidden" : "block"}`}>
                 <LoadingSpinner/>
             </div>
