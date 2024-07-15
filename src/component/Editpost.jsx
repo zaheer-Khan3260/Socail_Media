@@ -44,7 +44,7 @@ export default function PostForm({ post }) {
             
             const postData = response?.data;
             if (postData) {
-                navigate(`/post/${postData.data._id}`);
+                navigate(`/`);
             }
         } catch (error) {
             console.error("Error submitting post:", error);

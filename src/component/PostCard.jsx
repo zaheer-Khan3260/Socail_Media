@@ -2,14 +2,17 @@ import React, { useEffect, useState,useRef } from "react";
 import userImage from "./Images/user.png";
 import commentImage from "./Images/comment.png";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import api from "../api.js";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import menuImage from "./Images/more.png"
 import muteImage from "./Images/mute.png"
 import volumeImage from "./Images/volume.png"
 import Input from "./Input.jsx";
 import getFileType from "../utils/getFileType.js";
+import LoadingSpinner from "./LoadingSpinner/LoadinSpinner.jsx";
+import { BsSend } from "react-icons/bs";
+
 
 function PostCard({
   _id,
@@ -17,21 +20,37 @@ function PostCard({
   postFile,
   isLiked,
   likeCount,
-  comment,
   caption,
 }) {
-
+  const navigate = useNavigate()
   const [userData, setUserData] = useState(null);
   const [isVideo, setIsVideo] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [comment, setComment] = useState("");
   const [isMuted, setIsMuted] = useState(true)
+  const [deleteMessage, setDeleteMessage] = useState(false)
+  const [showPost, setShowPost] = useState(true)
   const videoRef = useRef(null);
-  const dispatch = useDispatch();
   const [newIsLiked, setNewIsLiked] = useState(isLiked);
   const [newLikeCount, setNewLikeCount] = useState(likeCount)
   const [menuIsOpen, setMenuIsOpen] = useState(false)
   const containerRef = useRef(null);
   const currentUserData = useSelector((state) => state.auth.userData)
+
+  const commentCreation = async() => {
+    try {
+      if(comment){
+        await api.post("/api/v1/comments/createComment", {
+          postId: _id,
+          content: comment,
+        });
+        setComment("")
+        navigate(`/post/${_id}`)
+      }
+    } catch (error) {
+      console.log("An error occur while creating a comment", error);
+    }
+  }
 
   const toggleMenu = () => {
     setMenuIsOpen(!menuIsOpen)
@@ -51,7 +70,11 @@ function PostCard({
         postId: _id 
     }).then((res) => {
       if(res.status === 200){
-        return true
+        setShowPost(false)
+        setDeleteMessage("Post deleted successfully")
+        setTimeout(() => {
+          setDeleteMessage(false)
+        }, 2000)
       }
     }).catch((err) => {
       console.log(err ? err.message : "An error occur while delete the post")
@@ -116,7 +139,8 @@ function PostCard({
   }, [isVideo, isMounted]);
 
   return (
-    <div className="mb-8 w-full h-full bg-[#0D1117] text-white rounded-lg shadow-lg md:w-[468px] pb-4">
+      showPost ? (
+    <div className="mb-8 w-full h-full bg-[#0D1117] text-white rounded-lg shadow-lg md:w-[468px] pb-4 relative">
       <div className="flex flex-col p-3">
         {/* Header */}
         <div className="flex items-center justify-between mb-3 text-white">
@@ -149,6 +173,12 @@ function PostCard({
             onClick={deletePost}
             >
               Delete
+              </div>
+            <div 
+            className={` text-red-800 font-bold text-[20px] border-b border-gray-600 cursor-pointer ${currentUserData?._id === owner ? "block" : "hidden"}`}
+            onClick={() => navigate(`/edit-post/${_id}`)}
+            >
+              Edit
               </div>
           </div>
         </div>
@@ -224,12 +254,28 @@ function PostCard({
             className=" rounded-full w-9 h-9"
           />
         </div>
-        <div className="ml-1">
+        <div className="ml-1 relative">
           <Input
           placeholder = "Comment.."
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
           />
+          <button type='submit'
+          onClick={commentCreation}
+          className='absolute top-4 right-0 flex items-center pr-3 invert'>
+					 <BsSend />
+				</button>
         </div>
       </div>
+
+      <div className={`absolute flex h-full backdrop-blur-lg  top-0 w-full ${showPost ? "hidden" : "block"}`}>
+                <LoadingSpinner/>
+            </div>
+    </div>
+      ) : 
+      <div className={`w-[7rem] h-10 flex p-2 rounded-2xl opacity-70 bg-red-700 text-white
+       lg:right-[-14rem] duration-300 transition-all ${deleteMessage ? "block" : "hidden"}`}>
+      Post deleted
     </div>
   );
 }

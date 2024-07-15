@@ -80,7 +80,7 @@ const createFollow = async() => {
 
   return (
 
-    <div className='p-3 w-full h-screen md:flex md:justify-end min-[950px]:block text-white overflow-auto bg-[#0f171f] mt-10'>
+    <div className='p-3 w-full h-screen md:flex md:justify-end min-[950px]:block text-white overflow-auto bg-[#0f171f] md:mt-10'>
 <div className=' w-full h-full mx-auto md:w-[500px]
  '>
 
