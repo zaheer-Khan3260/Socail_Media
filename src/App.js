@@ -1,17 +1,17 @@
 import './App.css';
 import {login, logout} from "./store/authSlice.js"
 import { useState, useEffect } from 'react';
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import { Header, Footer } from './component/index.js';
-import { Outlet } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
+import LoadingSpinner from './component/LoadingSpinner/LoadinSpinner.jsx';
 import api from './api.js';
 
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const userStatus = useSelector(state => state.auth.status)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,12 +25,16 @@ function App() {
         dispatch(logout());
         }
       } catch (error) {
+        
         dispatch(logout());
       } finally {
         setLoading(false);
       }
     };
-  fetchData();
+    if(userStatus) {
+      setLoading(true);    
+      fetchData();
+}
   }, []);
 
    return !loading ? (
@@ -45,9 +49,9 @@ function App() {
         <Footer />
       </div>
     </div>
-  ) : <div className='flex justify-center align-center text-blue-600 text-lg'>
-    Loading.......
-   </div>
+  ) :  <div className={`absolute flex h-screen backdrop-blur-lg  top-0 w-full`}>
+  <LoadingSpinner/>
+</div>
     
 };
 

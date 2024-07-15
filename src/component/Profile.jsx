@@ -4,6 +4,7 @@ import conent from './Images/download.png'
 import savedPostImage from './Images/savedpost.webp'
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom'
+import LoadingSpinner from './LoadingSpinner/LoadinSpinner.jsx';
 import api from '../api.js';
 
 function Profile() {
@@ -16,6 +17,7 @@ function Profile() {
   const [followerCount, setFollowerCount] = useState()
   const { UserId } = useParams()
   const UserData = useSelector((state) => state.auth.userData);
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const [isFollowedState, setIsFollowedState] = useState()
 
@@ -69,8 +71,10 @@ const createFollow = async() => {
         setPostCount(count);
         console.log("profile post data", userPosts.data);
      }
+     setLoading(true);
     fetchProfile()
     fetchPosts();
+    setLoading(false);
 
     }
   }, [UserData, navigate, UserId])
@@ -202,6 +206,9 @@ const createFollow = async() => {
         : null
       }
       </div>
+      <div className={`absolute flex h-screen backdrop-blur-lg  top-0 w-full ${loading ? "block" : "hidden"}`}>
+                <LoadingSpinner/>
+            </div>
 
 </div>
    

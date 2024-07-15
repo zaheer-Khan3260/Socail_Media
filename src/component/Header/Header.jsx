@@ -71,15 +71,15 @@ function Header() {
         </div>
 
         <div className='w-full h-[20%] flex flex-col justify-end'>
-          <div className='pl-2 mx-1 mt-5 pt-1 mb-1 h-8  flex hover:border-2 hover:border-gray-700 hover:rounded-xl'>
-            <div className='w-5 h-5 rounded-md mr-1'>
+          <div className='pl-2 mx-1 mt-5 pt-1 mb-2 h-8  flex hover:scale-110 duration-300 transition-all cursor-pointer'>
+            <div className='w-7 h-7 rounded-md mr-1'>
               <img src={settingImage} alt="Settings" />
             </div>
-            <div className='mt-[-3px]'>
+            <div className='mt-[-3px] text-[22px]'>
               Setting
             </div>
           </div>
-          <div className='pl-2 pt-1 h-8 mx-1 mb-10 flex hover:border-2 hover:border-gray-700 hover:rounded-xl'>
+          <div className='pl-2 pt-1 h-8 mx-1 mb-10 hover:scale-110 duration-300 transition-all cursor-pointer'>
             <LogoutBtn />
           </div>
         </div>

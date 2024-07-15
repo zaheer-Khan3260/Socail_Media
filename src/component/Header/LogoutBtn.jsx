@@ -17,17 +17,17 @@ function LogoutBtn() {
         })
     }
   return (
-    <>
-    <div className='w-5 h-5 rounded-md mr-1'
-    onClick={logoutHandler}
+    <div className='flex' onClick={logoutHandler}>
+    <div className='w-7 h-7 rounded-md mr-2'
+    
     >
        <img src={logoutImage} alt="" />
        </div>
-       <div className='mt-[-3px]'>
+       <div className='mt-[-3px] text-[20px]'>
        Logout
        </div>
     
-    </>
+    </div>
   )
 }
 

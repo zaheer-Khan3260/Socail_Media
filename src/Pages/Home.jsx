@@ -3,12 +3,13 @@ import { useSelector } from 'react-redux'
 import userImage from "../component/Images/user.png"
 import { PostCard} from '../component/index'
 import api from '../api.js';
-import Profile from '../component/Profile.jsx';
+import LoadingSpinner from '../component/LoadingSpinner/LoadinSpinner.jsx';
 function Home() {
     const [posts, setPosts] = useState([])
     const [userPost, setUserPost] = useState([])
     const [profile, setProfile] = useState({})
   const [postCount, setPostCount] = useState(0)
+  const [loading, setLoading] = useState(false)
 
   const UserData = useSelector((state) => state.auth.userData);
  const userStatus = useSelector((state) => state.auth.status);
@@ -47,9 +48,11 @@ function Home() {
        }
 
    if(userStatus) {
+    setLoading(true)
    fetchData()
    fetchProfile()
    fetchPosts()
+   setLoading(false)
    }
 
 }, [userStatus])
@@ -147,6 +150,9 @@ function Home() {
         </div>
            </div>
            </div>
+           <div className={`absolute flex h-screen backdrop-blur-lg  top-0 w-full ${loading ? "block" : "hidden"}`}>
+                <LoadingSpinner/>
+            </div>
     </div>
       )
 }
