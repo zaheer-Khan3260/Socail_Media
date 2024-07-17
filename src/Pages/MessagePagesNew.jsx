@@ -3,17 +3,20 @@ import Message from '../component/Message.jsx'
 import { Outlet } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
+
 export default function MessagePagesNew() {
   const conversationStatus = useSelector((state) => state.conversation.status)
   console.log("conversation Status", conversationStatus);
+
   return (
+
     <div className='md:text-center w-full md:flex md:justify-end 2xl:justify-center'>
      <div className={` ${conversationStatus ? "hidden md:block lg:block xl:block" : "block"}`}><Message/></div>
      <div className={`lg:min-w-[400px] md:min-w-[300px] xl:min-w-[775px] hidden bg-slate-400 ${conversationStatus ? "hidden" : "md:flex"}`}>
         <NoChatSelected/>
      </div>
      <Outlet/>
-    </div>
+    </div> 
   )
 }
 

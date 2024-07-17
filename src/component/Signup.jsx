@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../store/authSlice";
 import { Button, Input } from "./index.js";
 import { useDispatch } from "react-redux";
-import serialize from 'serialize-javascript';
+import userImage from "./Images/user.png"
+
 import { useForm } from "react-hook-form";
 import plusImage from "./Images/add.png"
 import api from "../api.js";
@@ -13,7 +14,32 @@ const Signup = () => {
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
-  const [file, setFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+
+
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(null);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    // Free memory when this component unmounts
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  const handleFileChange = (event) => {
+    if (!event.target.files || event.target.files.length === 0) {
+      setSelectedFile(null);
+      return;
+    }
+
+    setSelectedFile(event.target.files[0]);
+  };
+
 
   const create = async (data) => {
     setError("");
@@ -60,7 +86,7 @@ const Signup = () => {
             Sign In
           </Link>
         </p>
-
+        <div className=" text-red-600 text-center mb-4 rounded-2xl ">{error}</div>
         <form onSubmit={handleSubmit(create)} encType="multipart/form-data">
           <div className="space-y-5">
             <div className=" flex justify-between">
@@ -107,16 +133,15 @@ const Signup = () => {
                 required: true,
               })}
             />
-            <div className="relative w-full h-44">
+            <div className={`relative w-full h-44 ${preview ? "hidden" : "block"}`}>
               <div className="top-0 left-0">
-            <Input
+            <input
               type="file"
-              ClassName="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-full md:w-80 h-36 py-8 absolute z-50 opacity-0"
-              {...register("avatar", {
-                required: true,
-              })}
+              className="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-full md:w-80 h-36 py-8 absolute z-50 opacity-0"
+              onChange={handleFileChange}
             />
             </div>
+  
             <div 
               className="w-full md:w-80 h-36 border-2 rounded-3xl border-dashed
                border-gray-400 py-5 flex flex-col justify-center items-center absolute top-7 z-0"
@@ -131,7 +156,23 @@ const Signup = () => {
               </div>
               </div>
             </div>
-
+            <div className={`h-52 w-full ${preview ? "block" : "hidden"}`}>
+              <div className="w-44 h-44 rounded-full border-2 border-gray-400 overflow-hidden mx-auto ">
+                <img
+                  src={preview}
+                  alt="Avatar Preview"
+                  className="w-full h-full object-cover"
+                />
+                </div>
+                <div className="relative w-full flex justify-end">
+                <div className="w-20 absolute top-0 right-4 rounded-xl text-white font-bold text-center py-1 h-8 bg-blue-700">Change</div>
+                 <input
+              type="file"
+              className="w-20 right-4 top-0 absolute z-0 opacity-0"
+              onChange={handleFileChange}
+            />
+            </div>
+              </div>
             <div className=" relative xl:w-[26rem]">
               <input
                 type="checkbox"

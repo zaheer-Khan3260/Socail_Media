@@ -31,10 +31,9 @@ function App() {
         setLoading(false);
       }
     };
-    if(userStatus) {
       setLoading(true);    
       fetchData();
-}
+
   }, []);
 
    return !loading ? (

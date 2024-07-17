@@ -15,6 +15,7 @@ function Chatdisplay() {
   const {socket} = useSocketContext()
   const [conversationUserData, setConversationUserData] = useState([])
   const [recieverId, setRecieverId] = useState()
+  const [recieverAavatar, setRecieverAavatar] = useState(null)
   const { conversationId } = useParams()
   const messageStatus = useSelector((state) => state.message.status)
   const currentUserData = useSelector((state) => state.auth.userData);
@@ -90,7 +91,7 @@ function Chatdisplay() {
 }
 					</div>
           {/* message skeleton component */}
-          <div className='px-4 flex-1 overflow-auto'>
+          <div className='px-4 flex-1 overflow-auto h-auto'>
             {
               conversation ? 
               conversation.map((data) => (
@@ -100,9 +101,10 @@ function Chatdisplay() {
               )) : null
             }
           </div>
-
+            <div>
           {/* input field */}
           <MessageInputNew {...recieverId}/>
+          </div>
 				</>
 			) : null
     }
