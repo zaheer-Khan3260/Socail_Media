@@ -63,8 +63,22 @@ const Signup = () => {
         withCredentials: true,
       });
       if (response.data) {
-        dispatch(login({ userData: response.data }));
-        setLoading(false);
+        const data = {
+          email: response.data.data.email,
+          password: formData.password
+        }
+        try {
+          const response = await api.post("/api/v1/users/login", data);
+          const userData = response.data.data;
+          console.log("userdata by login", response.data.data);
+          if (userData) {
+            dispatch(login({ userData: userData.user }));
+           setLoading(false);
+            navigate("/");
+          }
+        } catch (error) {
+          setError(error.message || "An error occure while logIn the user");
+        }
         navigate("/");
       }
     } catch (error) {
@@ -134,7 +148,9 @@ const Signup = () => {
               ClassName="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-[75%]"
               required
             />
-            <div className={`relative w-full h-44 ${preview ? "hidden" : "block"}`}>
+            <div
+              className={`relative w-full h-44 ${preview ? "hidden" : "block"}`}
+            >
               <div className="top-0 left-0">
                 <Input
                   type="file"
@@ -150,7 +166,8 @@ const Signup = () => {
                 </div>
                 <div className="font-semibold opacity-75">Add Avatar</div>
                 <div className="text-[12px]">
-                  or <span className="text-blue-700">drag file</span> from your system
+                  or <span className="text-blue-700">drag file</span> from your
+                  system
                 </div>
               </div>
             </div>
@@ -200,7 +217,11 @@ const Signup = () => {
           </div>
         </form>
       </div>
-      <div className={`absolute flex h-full backdrop-blur-lg top-0 w-full ${loading ? "block" : "hidden"}`}>
+      <div
+        className={`absolute flex h-[150%] md:h-screen backdrop-blur-lg top-0 w-full ${
+          loading ? "block" : "hidden"
+        }`}
+      >
         <LoadingSpinner />
       </div>
     </div>

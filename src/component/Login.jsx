@@ -4,6 +4,7 @@ import { login as authLogin } from '../store/authSlice.js'
 import {Input} from '../component/index.js'
 import {useDispatch} from "react-redux"
 import {useForm} from "react-hook-form"
+import LoadingSpinner from './LoadingSpinner/LoadinSpinner.jsx'
 import { useState } from 'react'
 import api from "../api.js"
 
@@ -12,8 +13,10 @@ function Login() {
     const dispatch = useDispatch();
     const {register, handleSubmit} = useForm()
     const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
 
    const login = async(data) => {
+    setLoading(true)
         setError("")
         try {
                const response = await api.post("/api/v1/users/login", data)
@@ -21,6 +24,7 @@ function Login() {
                console.log("userdata by login", response.data.data);
           if (userData) {
             dispatch(authLogin({userData: userData.user}))
+            setLoading(false)
             navigate('/');     
         }
             
@@ -83,6 +87,13 @@ function Login() {
       </button>
             </div>
         </form>
+      </div>
+      <div
+        className={`absolute flex h-screen backdrop-blur-lg top-0 w-full ${
+          loading ? "block" : "hidden"
+        }`}
+      >
+        <LoadingSpinner />
       </div>
     </div>
   )
