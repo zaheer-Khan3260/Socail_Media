@@ -85,8 +85,8 @@ function EditProfile() {
    }
 
   return (
-    <form onSubmit={handleSubmit(submit)}  className='border-2 border-red-700 w-full h-screen'>
-      <div className='border-2 border-black w-full p-2 h-full md:pt-5 md:w-1/2 md:ml-[15rem] lg:ml-[21rem] xl:ml-[24rem]'>
+    <form onSubmit={handleSubmit(submit)}  className=' flex justify-center w-full h-screen'>
+      <div className=' w-full p-2 h-full md:pt-5 md:w-1/2'>
            {/* profile image cont */}
            <div className=' w-full mt-4'>
                 {/* image cont */}
@@ -124,22 +124,22 @@ function EditProfile() {
             </div>
             <div className='border-b-2 border-grey-900 pt-5 mx-3'></div>
             <div className='mt-2 w-full h-auto'>
-            <label htmlFor="userName" className='text-sm'> Username</label>
+            <label htmlFor="userName" className='text-sm text-white'> Username</label>
                         <div  className='mt-1 ml-1'>
-                        <input
+                        <Input
                          type="text"
-                        label="Username"
                         defaultValue={profilePost.username || ""}
-                         className=" border-b-2 border-black focus:outline-none text-sm w-52 lg:text-lg"
+                         ClassName=" border-b-2 border-black focus:outline-none text-sm lg:text-lg"
                          {...register("username", { required: !profilePost.username})}
                          />
                         </div>
+            <label htmlFor="fullname" className='text-sm text-white'> Full name</label>
+
                         <div  className='mt-1 ml-1'>
-                        <input
+                        <Input
                          type="text"
-                        label="Full Name"
                          defaultValue={profilePost.fullname || ""}
-                         className=" border-b-2 border-black focus:outline-none text-sm w-52 lg:text-lg"
+                         ClassName=" border-b-2 border-black focus:outline-none text-sm w-52 lg:text-lg"
                          {...register("fullname", { required: !profilePost.username})}
                          />
                         </div>
@@ -148,11 +148,11 @@ function EditProfile() {
                  type="text"
                  placeholder='Bio'
                  defaultValue={profilePost.bio || ""}
-                 className=" border-b-2 border-black focus:outline-none text-sm w-52 lg:text-lg"
+                 ClassName=" border-b-2 border-black focus:outline-none text-sm w-52 lg:text-lg"
                  {...register("bio", {required: !profilePost.bio})}
                  />
                 </div>
-                <h6 className='mt-5 ml-1 text-sm mb-1 lg:text-lg'>Gender : </h6>
+                <h6 className='mt-5 ml-1 text-sm mb-1 lg:text-lg text-white'>Gender</h6>
                 <div className='text-sm lg:text-lg'>
                 <Select
                     options={["Male", "Female"]}
@@ -161,7 +161,7 @@ function EditProfile() {
                 />
                </div>
             </div>
-            <Button type="submit" bgColor={profilePost ? "bg-green-500" : undefined} className="w-full">
+            <Button type="submit" bgColor={profilePost ? "bg-green-500" : undefined} className="w-32">
                     {profilePost ? "Update" : "Submit"}
                 </Button>
       </div>
