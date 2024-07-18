@@ -30,6 +30,7 @@ function Login() {
             
         } catch (error) {
             setError(error.message || "An error occure while logIn the user");
+            setLoading(false)
         }
    }
 

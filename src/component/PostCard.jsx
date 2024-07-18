@@ -46,8 +46,12 @@ function PostCard({
         await api.post("/api/v1/comments/createComment", {
           postId: _id,
           content: currentComment,
-        });
-        setCurrentComment("")
+        }).then((response) => {
+          if(response.status === 201) {
+          setCurrentComment("")
+          navigate(`/post/${_id}`)
+          }
+        })
       }
     } catch (error) {
       console.log("An error occur while creating a comment", error);
@@ -251,11 +255,11 @@ function PostCard({
         </div>
       </div>
       <div className=" w-full h-10 flex items-center">
-        <div className="w-9 h-9 border border-gray-500 rounded-full flex justify-center text-center ml-1 object-contain">
+        <div className="w-9 h-9 border border-gray-500 rounded-full flex justify-center text-center ml-1">
           <img
             src={currentUserData ? currentUserData.avatar : userImage}
             alt=""
-            className=" rounded-full w-9 h-9"
+            className=" rounded-full w-9 h-9 object-cover"
           />
         </div>
         <div className="ml-1 relative">

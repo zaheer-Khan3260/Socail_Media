@@ -18,6 +18,7 @@ import EditUserProfile from './Pages/EditUserProfile.jsx';
 import Chatdisplay from './Pages/Chatdisplay.jsx';
 import MessagePagesNew from './Pages/MessagePagesNew.jsx';
 import { SocketContextProvider } from './component/context/SocketContext.jsx';
+import SearchPage from './Pages/SearchPage.jsx';
 
 
 axios.defaults.withCredentials = true;
@@ -82,6 +83,15 @@ const router = createBrowserRouter([
                 <ProtectedLayer authentication>
                     {" "}
                     <AddPost />
+                </ProtectedLayer>
+            ),
+        },
+        {
+            path: "/search",
+            element: (
+                <ProtectedLayer authentication>
+                    {" "}
+                    <SearchPage/>
                 </ProtectedLayer>
             ),
         },

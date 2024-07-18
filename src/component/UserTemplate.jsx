@@ -35,7 +35,7 @@ function UserTemplate( {
       </div>
       <div>
       <div className='mt-1 ml-2 font-semibold text-[22px]'>
-        {fullname}
+        {username}
       </div>
       </div>
     </div>

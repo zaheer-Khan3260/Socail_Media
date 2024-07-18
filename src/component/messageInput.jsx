@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { BsSend } from "react-icons/bs";
 import api from "../api";
-import { send } from "../store/messageSlice";
+import { sendMessages } from "../store/messageSlice.js";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 
 
-const MessageInput = ({_id}) => {
+const MessageInput = ({_id, redirect}) => {
 	const [message, setMessage] = useState("");
 	const [loading, setLoading] = useState(false)
+	const navigate = useNavigate()
 	const dispatch = useDispatch()
-	const sendMessage = async(message) => {
-		console.log("Reciver Id in input message", _id)
+	const sendCurrentMessage = async(message) => {
 		try {
 			setLoading(true)
 		const res = await api.post("/api/v1/message/sendMessage", {
@@ -20,7 +21,10 @@ const MessageInput = ({_id}) => {
 			})
 			if(res){
 				const messageData = res.data.data
-				dispatch(send(messageData))
+				dispatch(sendMessages(messageData))
+				if(redirect){
+					navigate(redirect)
+				}
 			}
 			setLoading(false)
 		  } catch (error) {
@@ -32,7 +36,7 @@ const MessageInput = ({_id}) => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (!message) return;
-		await sendMessage(message);
+		await sendCurrentMessage(message);
 		setMessage("");
 	};
 

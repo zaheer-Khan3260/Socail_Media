@@ -14,7 +14,7 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
-    name: "",
+    fullname: "",
     username: "",
     email: "",
     password: "",
@@ -111,7 +111,7 @@ const Signup = () => {
             <div className="flex justify-between">
               <Input
                 label="Full Name"
-                name="name"
+                name="fullname"
                 placeholder="Name"
                 value={formData.name}
                 onChange={handleInputChange}

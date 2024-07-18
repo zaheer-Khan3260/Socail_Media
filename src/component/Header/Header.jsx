@@ -20,7 +20,7 @@ function Header() {
 
   const navItems = [
     { id: 1, name: 'Home', slug: "/", image: homeImage },
-    { id: 2, name: "Search", slug: "/", image: searchImage },
+    { id: 2, name: "Search", slug: "/search", image: searchImage },
     { id: 3, name: "Discover", slug: "/", image: notificationImage },
     { id: 4, name: "Messages", slug: "/messages", image: messageImage },
     { id: 5, name: "Create", slug: "/add-post", image: createImage },
