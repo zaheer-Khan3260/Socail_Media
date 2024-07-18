@@ -85,7 +85,7 @@ function Profile() {
   }, [UserData, navigate, UserId]);
 
   return (
-    <div className="p-3 w-full h-screen md:flex md:justify-end min-[950px]:block text-white overflow-auto bg-[#0f171f] md:mt-10">
+    <div className=" w-full h-screen md:flex md:justify-end min-[950px]:block text-white overflow-auto bg-[#0f171f] md:mt-10">
       <div
         className=" w-full h-full mx-auto md:w-[500px]
  "
@@ -244,7 +244,7 @@ function Profile() {
       </div>
 
       <div
-        className={`absolute flex h-screen backdrop-blur-lg top-0 w-[70%] justify-center items-center ${
+        className={`absolute flex h-screen w-full  md:w-[70%] backdrop-blur-lg top-0 justify-center items-center ${
           messageContainer ? "block" : "hidden"
         }`}
       >
