@@ -38,7 +38,7 @@ const MessageInput = ({_id, redirect}) => {
 		if (!message) return;
 		await sendCurrentMessage(message);
 		setMessage("");
-	};a
+	};
 
 	return (
 		<form className='px-4 my-3' onSubmit={handleSubmit}>
