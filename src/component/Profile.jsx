@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner/LoadinSpinner.jsx";
 import api from "../api.js";
-import MessageInput from "./MessageInput.jsx";
+import MessageInputNew from "./MessageInputNew.jsx";
 
 function Profile() {
   const [activePost, setActivePost] = useState(true);
@@ -268,7 +268,7 @@ function Profile() {
           </div>
 
           <div>
-            <MessageInput _id={UserId} redirect={"/messages"} />
+            <MessageInputNew _id={UserId} redirect={"/messages"} />
           </div>
         </div>
       </div>

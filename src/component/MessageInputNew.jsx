@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { BsSend } from "react-icons/bs";
 import api from "../api";
+import { sendMessages } from "../store/messageSlice.js";
 import { useDispatch } from "react-redux";
-import { sendMessages } from "../store/messageSlice";
-import Input from "./Input";
+import { useNavigate } from "react-router-dom";
 
 
-const MessageInputNew = ({_id}) => {
+
+const MessageInput = ({_id, redirect}) => {
 	const [message, setMessage] = useState("");
 	const [loading, setLoading] = useState(false)
-	const dispatch = useDispatch();
-	const sendMessage = async(message) => {
+	const navigate = useNavigate()
+	const dispatch = useDispatch()
+	const sendCurrentMessage = async(message) => {
 		try {
 			setLoading(true)
 		const res = await api.post("/api/v1/message/sendMessage", {
@@ -20,6 +22,9 @@ const MessageInputNew = ({_id}) => {
 			if(res){
 				const messageData = res.data.data
 				dispatch(sendMessages(messageData))
+				if(redirect){
+					navigate(redirect)
+				}
 			}
 			setLoading(false)
 		  } catch (error) {
@@ -31,15 +36,16 @@ const MessageInputNew = ({_id}) => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (!message) return;
-		await sendMessage(message);
+		await sendCurrentMessage(message);
 		setMessage("");
-	};
+	};a
 
 	return (
 		<form className='px-4 my-3' onSubmit={handleSubmit}>
 			<div className='w-full relative'>
-				<Input
+				<input
 					type='text'
+					className='border text-sm rounded-lg block w-full p-2.5  bg-gray-700 border-gray-600 text-white'
 					placeholder='Send a message'
 					value={message}
 					onChange={(e) => setMessage(e.target.value)}
@@ -51,5 +57,5 @@ const MessageInputNew = ({_id}) => {
 		</form>
 	);
 };
-export default MessageInputNew;
+export default MessageInput;
 
