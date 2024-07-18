@@ -18,7 +18,7 @@ const Footer = () => {
             <img src={homeImage} alt="" className='w-7'/>
         </div>
         </Link>
-        <Link to='/'>
+        <Link to='/search'>
         <div className=' w-9 invert'>
             <img src={searchImage} alt="" className='w-7'/>
         </div>
