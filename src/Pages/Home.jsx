@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import { useSelector } from 'react-redux'
+
 import userImage from "../component/Images/user.png"
 import { PostCard} from '../component/index'
+import getFileType from '../utils/getFileType.js'
 import api from '../api.js';
 import LoadingSpinner from '../component/LoadingSpinner/LoadinSpinner.jsx';
+import { Link } from 'react-router-dom'
 function Home() {
     const [posts, setPosts] = useState([])
     const [userPost, setUserPost] = useState([])
@@ -134,19 +137,41 @@ function Home() {
              >Posts</div>
       </div>
            <div className='h-[20rem] w-full p-[2px] overflow-auto'>
-        <div className='flex flex-wrap justify-between'>
-        {
-       userPost ? ( userPost.map((post) => (
-          <div key={post._id}
-          className='w-[calc(50%-0.30rem)] h-[15rem] bg-black'>
-                <img src={post.postFile} alt="" 
-                className='h-full object-contain'
-                />
-          </div>   
-          ))) :
-          <div className=' text-blue-600 font-bold'>Don't Upload any posts</div>
-          }
-          </div>
+           <div className="grid grid-cols-2 gap-2">
+              {userPost ? (
+                userPost.map((post) => (
+                  <Link to={`/post/${post?._id}`}>  
+                <div
+                    key={post._id}
+                    className="h-[15rem] bg-black"
+                    >
+                    {
+                    getFileType(post.postFile) === "video"
+                       ? <video 
+                      className="object-contain h-full w-full"
+                      width="100%"   
+                      loop 
+                      playsInline // Important for mobile devices
+                    >
+                      <source src={post?.postFile} type="video/mp4"/>
+                      Your browser does not support the video tag.
+                    </video>
+                     : 
+                    <img
+                      src={post.postFile}
+                      alt=""
+                      className="h-full object-contain"
+                    />
+                    }
+                  </div>
+                  </Link>
+                ))
+              ) : (
+                <div className=" text-blue-600 font-bold">
+                  Don't Upload any posts
+                </div>
+              )}
+            </div>
         </div>
            </div>
            </div>

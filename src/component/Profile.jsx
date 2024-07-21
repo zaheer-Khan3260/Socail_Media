@@ -7,9 +7,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner/LoadinSpinner.jsx";
 import api from "../api.js";
 import MessageInputNew from "./MessageInputNew.jsx";
+import getFileType from "../utils/getFileType.js";
 
 function Profile() {
   const [activePost, setActivePost] = useState(true);
+  const [isvideo, setIsvideo] = useState(false);
   const [activeSavedPost, setActiveSavedPost] = useState(false);
   const [postCount, setPostCount] = useState(0);
   const [posts, setPosts] = useState([]);
@@ -85,9 +87,9 @@ function Profile() {
   }, [UserData, navigate, UserId]);
 
   return (
-    <div className=" w-full h-screen md:flex md:justify-end min-[950px]:block text-white overflow-auto bg-[#0f171f] md:mt-10">
+    <div className=" w-full h-screen md:flex md:justify-end min-[950px]:block text-white overflow-auto bg-[#0f171f] md:pt-10">
       <div
-        className=" w-full h-full mx-auto md:w-[500px]
+        className=" w-full h-full mx-auto xl:mx-2 md:w-[500px]
  "
       >
         {/* profile image and follower cont */}
@@ -199,20 +201,31 @@ function Profile() {
 
         {/* post cont */}
         {activePost ? (
-          <div className="h-auto w-full p-[2px]">
-            <div className="flex flex-wrap justify-between">
+          <div className="h-auto w-full p-[2px] overflow-auto">
+            <div className="grid grid-cols-2 gap-2">
               {posts ? (
                 posts.map((post) => (
-                  <div
-                    key={post._id}
-                    className="w-[calc(50%-0.30rem)] h-[15rem] bg-black"
-                  >
-                    <img
-                      src={post.postFile}
-                      alt=""
-                      className="h-full object-contain"
-                    />
-                  </div>
+                  <Link to={`/post/${post?._id}`}>
+                    <div key={post._id} className="h-[15rem] bg-black">
+                      {getFileType(post.postFile) === "video" ? (
+                        <video
+                          className="object-contain h-full w-full"
+                          width="100%"
+                          loop
+                          playsInline // Important for mobile devices
+                        >
+                          <source src={post?.postFile} type="video/mp4" />
+                          Your browser does not support the video tag.
+                        </video>
+                      ) : (
+                        <img
+                          src={post.postFile}
+                          alt=""
+                          className="h-full object-contain"
+                        />
+                      )}
+                    </div>
+                  </Link>
                 ))
               ) : (
                 <div className=" text-blue-600 font-bold">
@@ -221,8 +234,7 @@ function Profile() {
               )}
             </div>
           </div>
-        ) : null}
-        {activeSavedPost ? (
+        ) : (
           <div className="h-auto w-full p-[2px] min-[950px]:hidden">
             <div className="flex justify-between gap-1">
               <div className="w-full h-full">
@@ -233,7 +245,7 @@ function Profile() {
               </div>
             </div>
           </div>
-        ) : null}
+        )}
       </div>
       <div
         className={`absolute flex h-screen backdrop-blur-lg  top-0 w-full ${

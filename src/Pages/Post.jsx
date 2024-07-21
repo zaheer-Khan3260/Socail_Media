@@ -27,7 +27,6 @@ export default function Post() {
           .then((post) => {
             if (post) {
               const postData = post.data.data;
-              console.log("owner in post", postData);
               setPost(postData);
             }
           });
@@ -35,9 +34,9 @@ export default function Post() {
     };    
     fetchData();
     const videoPostFile = post?.postFile;
-    getFileType(videoPostFile);
+     setIsVideo(getFileType(videoPostFile))
 
-  }, [postId, navigate]);
+  });
 
   useEffect(() =>{
     const fetchComment = async () => {
@@ -47,7 +46,6 @@ export default function Post() {
         })
        .then((comments) => {
           setComment(comments.data.data.comments)
-          console.log("comments", comments.data.data.comments);
         });
     };
     fetchComment();
@@ -60,12 +58,13 @@ export default function Post() {
   };
 
   return (
-    <div className="py-8 h-screen overflow-auto pt-12">
-      <div className="w-full mb-4 flex flex-col lg:flex-row items-center lg:items-start relative rounded-xl p-2 ">
+    <div className="lg:pt-8 h-full lg:h-screen flex flex-col lg:flex-row items-center lg:items-start">
+      <div className=" w-full h-full md:w-[25rem] md:h-[35rem] lg:w-[40rem] xl:w-[25rem] mb-4 lg:items-start relative rounded-xl p-2 ">
         {isVideo ? (
-          <div className="w-[25rem] h-full md:h-[35rem] bg-blue-500 rounded-lg overflow-hidden mb-1 relative">
+          <div className="h-full bg-blue-500 rounded-lg overflow-hidden mb-1 relative">
             <video
               width="100%"
+              className="object-cover w-[34rem] h-[40rem]"
               muted={isMuted}
               loop
               autoPlay
@@ -94,11 +93,12 @@ export default function Post() {
             />
           </div>
         )}
-      <div className=" w-[90%] lg:w-[80%] mt-5 lg:mt-1 lg:ml-4">
+        </div>
+      <div className=" w-[90%] lg:w-[80%] xl:w-[40%] lg:mt-1 lg:ml-4 h-full">
       <div className="hidden lg:flex">
           <div className="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center transition-transform duration-300 hover:scale-105">
             {
-              post ? (
+              post ? ( 
                 <img
                   src={post.owner.avatar ? post.owner.avatar : userImage}
                   alt="userProfile"
@@ -120,14 +120,13 @@ export default function Post() {
             <div className="mt-8 w-full h-9 text-gray-500">
                Comments
             </div>
-            <div className="h-[11rem] lg:h-screen overflow-auto">
+            <div className="h-[12rem] lg:h-auto overflow-auto">
           {
             comment ? comment.map((comment) => (
             <CommentComponent {...comment}/>
             )) : null
           }
           </div>
-      </div>
       </div>
     </div>
   );

@@ -198,16 +198,17 @@ function PostCard({
         {isVideo ? (
         <div 
         ref={containerRef}
-        className="w-full h-full md:h-[35rem] bg-blue-500 rounded-lg overflow-hidden mb-1 relative">
+        className="w-full h-full md:h-[35rem] bg-[#fffff] rounded-lg overflow-hidden mb-1 relative">
           <Link to={`/post/${_id}`}>
           <video 
+          className="object-cover w-[34rem] h-[40rem]"
           ref={videoRef}
           width="100%" 
           muted= {isMuted}
           loop 
           playsInline // Important for mobile devices
         >
-          <source src={postFile} type="video/mp4" />
+          <source src={postFile} type="video/mp4"/>
           Your browser does not support the video tag.
         </video>
        
