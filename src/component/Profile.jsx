@@ -12,7 +12,6 @@ import getFileType from "../utils/getFileType.js";
 function Profile() {
   const [activePost, setActivePost] = useState(true);
   const [isvideo, setIsvideo] = useState(false);
-  const [activeSavedPost, setActiveSavedPost] = useState(false);
   const [postCount, setPostCount] = useState(0);
   const [posts, setPosts] = useState([]);
   const [messageContainer, setMessageContainer] = useState(false);
@@ -180,7 +179,6 @@ function Profile() {
             } cursor-pointer`}
             onClick={() => {
               setActivePost(true);
-              setActiveSavedPost(false);
             }}
           >
             Posts
@@ -190,7 +188,6 @@ function Profile() {
               savedPost ? `bg-blue-600` : "bg-white"
             } cursor-pointer`}
             onClick={() => {
-              setActiveSavedPost(true);
               setActivePost(false);
             }}
           >
