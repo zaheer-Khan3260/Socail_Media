@@ -83,6 +83,11 @@ const Signup = () => {
       }
     } catch (error) {
       console.log(error)
+      if(error.message === "Request failed with status code 409") {
+      setError("Username already existed")
+      }else{
+        setError(error.message)
+      }
       setLoading(false);
     }
   };
@@ -105,7 +110,7 @@ const Signup = () => {
             Sign In
           </Link>
         </p>
-        <div className="text-red-600 text-center mb-4 rounded-2xl">{error}</div>
+        <div className="text-red-600 text-center mb-4 rounded-2xl">{error? error : ""}</div>
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div className="space-y-5">
             <div className="flex justify-between">
