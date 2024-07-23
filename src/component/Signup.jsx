@@ -82,7 +82,9 @@ const Signup = () => {
         navigate("/");
       }
     } catch (error) {
-      setError(error.message || "An error occurred while creating account");
+      if (error.status === 409){
+        setError("Username Already existed")
+      }
       setLoading(false);
     }
   };
