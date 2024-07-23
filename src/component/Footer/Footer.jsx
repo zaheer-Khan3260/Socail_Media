@@ -5,6 +5,7 @@ import userImage from "../Images/user.png"
 import searchImage from "../Images/search.png"
 import createImage from "../Images/add.png"
 import { useSelector } from 'react-redux'
+import LogoutBtn from "../Header/LogoutBtn.jsx"
 
 
 
@@ -33,6 +34,9 @@ const Footer = () => {
             <img src={userImage} alt="" className='w-7'/>
         </div>
         </Link>
+        <div className=' w-9'>
+            <LogoutBtn/>
+        </div>
     </div>
   )
 };

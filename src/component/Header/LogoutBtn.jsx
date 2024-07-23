@@ -23,7 +23,7 @@ function LogoutBtn() {
     >
        <img src={logoutImage} alt="" />
        </div>
-       <div className='mt-[-3px] text-[20px]'>
+       <div className='mt-[-3px] text-[20px] hidden md:block'>
        Logout
        </div>
     
