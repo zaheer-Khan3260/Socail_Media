@@ -82,9 +82,7 @@ const Signup = () => {
         navigate("/");
       }
     } catch (error) {
-      if (error.status === 409){
-        setError("Username Already existed")
-      }
+      console.log(error)
       setLoading(false);
     }
   };
