@@ -15,7 +15,6 @@ function Chatdisplay() {
   const {socket} = useSocketContext()
   const [conversationUserData, setConversationUserData] = useState([])
   const [recieverId, setRecieverId] = useState()
-  const [recieverAavatar, setRecieverAavatar] = useState(null)
   const { conversationId } = useParams()
   const messageStatus = useSelector((state) => state.message.status)
   const currentUserData = useSelector((state) => state.auth.userData);
@@ -36,6 +35,8 @@ function Chatdisplay() {
     fetchConversation();
   }, [conversationId, messageStatus])
 
+  console.log("data in chatdisplay", conversation);
+
   useEffect(() => {
     if (!socket) {
       return;
@@ -55,6 +56,7 @@ function Chatdisplay() {
     if(conversationUserData.length > 0){
       const reciever = conversationUserData.find(user => user._id !== currentUserData?._id)
       if(reciever) {
+        console.log("reciver in chatdisplat", reciever)
         setRecieverId(reciever)
       }
     }
@@ -96,7 +98,8 @@ function Chatdisplay() {
               conversation ? 
               conversation.map((data) => (
                 <div key={data._id} ref={lastMessageRef}>
-                  <MessageSkeleton {...data}/>
+                  <MessageSkeleton {...data} receiverAvatar= {recieverId?.avatar}
+                  />
                 </div>
               )) : null
             }

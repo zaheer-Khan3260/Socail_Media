@@ -4,14 +4,16 @@ import userImage from "./Images/user.png"
 import api from "../api.js";
 import { useDispatch } from "react-redux";
 
-const MessageSkeleton = ({ message, createdAt, senderId, _id}) => {
+const MessageSkeleton = ({receiverAvatar, message, createdAt, senderId, _id}) => {
 	const userData = useSelector((state) => state.auth.userData)
 	const fromMe = senderId === userData?._id;
 	const dispatch = useDispatch()
 	const formattedTime = extractTime(createdAt);
+	// console.log("reciver avatar", recieverAvatar)
 	const chatClassName = fromMe ? "chat-end" : "chat-start";
-	const profilePic = fromMe ? userData.avatar : userImage ;
+	const profilePic = fromMe ? userData.avatar : receiverAvatar ;
 	const bubbleBgColor = fromMe ? "bg-blue-500" : "bg-gray-600";
+
 
 	const deleteMessage = async() => {
 		await api.post("/api/v1/message/deleteMessage", {messageId: _id}).then((res) => {
