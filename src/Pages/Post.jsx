@@ -60,7 +60,7 @@ export default function Post() {
   return (
     <div className="lg:pt-8 h-full lg:h-screen flex flex-col lg:flex-row items-center lg:items-start">
       <div className=" w-full h-full md:w-[25rem] md:h-[35rem] lg:w-[40rem] xl:w-[25rem] mb-4 lg:items-start relative rounded-xl p-2 ">
-        {isVideo ? (
+        {isVideo === "video" ? (
           <div className="h-full bg-blue-500 rounded-lg overflow-hidden mb-1 relative">
             <video
               width="100%"
@@ -85,7 +85,7 @@ export default function Post() {
             </div>
           </div>
         ) : (
-          <div className="w-[80%]">
+          <div className="w-[100%] h-full">
             <img
               src={post?.postFile}
               alt={post?.caption}
